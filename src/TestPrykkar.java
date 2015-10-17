@@ -1,10 +1,32 @@
+import java.io.File;
 import java.util.Arrays;
 import java.util.*;
 /**
  * Created by kasutaja on 14.10.2015.
  */
 public class TestPrykkar {
-    public static void main(String[] args) {
+
+    static String randomNipp;
+
+    // nippide lugemine failist
+    static void nippideJarjend () throws Exception {
+        File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas
+        Scanner sc1 = new Scanner(nippideFail);
+        List<String> listNipid = new ArrayList<String>();
+        while (sc1.hasNextLine()) {
+            String rida = sc1.nextLine();//rida tuleb eraldi muutujasse salvestada
+            listNipid.add(rida);
+        }
+        //System.out.println(listNipid.size());
+        sc1.close();
+
+        randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
+        System.out.println(randomNipp);
+    }
+
+
+    //PEAMEETOD
+    public static void main(String[] args) throws Exception {
 
         Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tüüpi objekti, mille liik on paber ja papp
         Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tüüpi objekti, mille liik on biol. jäätmed
@@ -35,5 +57,6 @@ public class TestPrykkar {
                 System.out.println("Sorry, programm on alles poolik, varsti ytlen, kuhu visata!");
             }
         }
+        nippideJarjend();
     }
 }

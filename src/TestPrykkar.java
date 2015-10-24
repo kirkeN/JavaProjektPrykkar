@@ -7,7 +7,7 @@ import java.util.*;
 public class TestPrykkar {
 
     static String randomNipp;
-    static int abiMuutuja = 0;
+    static int abiMuutuja = 0; //selleks, et vaadata, kas kasutaja sisestatud prygi on meil listides olemas
 
     // nippide lugemine failist
     static void nippideJarjend () throws Exception {
@@ -24,65 +24,47 @@ public class TestPrykkar {
         System.out.println(randomNipp);
     }
 
-    static List<String> bioJarjend() throws Exception {
-        File bioFail = new File("bio.txt");
-        Scanner sc2 = new Scanner(bioFail);
-        List<String> listBio = new ArrayList<>();
-        while (sc2.hasNextLine()) {
-            String rida = sc2.nextLine();
-            listBio.add(rida);}
-        sc2.close();
-        return listBio;
-    }
-
-    static List<String> pappJarjend() throws Exception {
-        File pappFail = new File("paber.txt");
-        Scanner sc3 = new Scanner(pappFail);
-        List<String> listPapp = new ArrayList<>();
-        while (sc3.hasNextLine()) {
-            String rida = sc3.nextLine();
-            listPapp.add(rida);
-        }
-        sc3.close();
-        return listPapp;
-    }
-    static List<String> elekterJarjend() throws Exception {
-        File elekterFail = new File("elekter.txt");
-        Scanner sc4 = new Scanner(elekterFail);
-        List<String> listElekter = new ArrayList<>();
-        while (sc4.hasNextLine()) {
-            String rida = sc4.nextLine();
-            listElekter.add(rida);
-        }
-        sc4.close();
-        return listElekter;
+    static List<String> jarjend(File fail) throws Exception {
+        Scanner sc0 = new Scanner(fail);
+        List<String> jaatmeList = new ArrayList<>();
+        while (sc0.hasNextLine()) {
+            String rida = sc0.nextLine();
+            jaatmeList.add(rida);}
+        sc0.close();
+        return jaatmeList;
     }
 
     //PEAMEETOD
     public static void main(String[] args) throws Exception {
+        File elekterFail = new File("elekter.txt"); //iga prygiliigi kohta andmed eri failides hetkel
+        File pappFail = new File("paber.txt");
+        File bioFail = new File("bio.txt");
+        List<String> bioJarjend = new ArrayList<>(jarjend(bioFail)); //failist loetud prygi salvestan j2rjendisse
+        List<String> pappJarjend = new ArrayList<>(jarjend(pappFail));
+        List<String> elekterJarjend = new ArrayList<>(jarjend(elekterFail));
 
-        Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tÃ¼Ã¼pi objekti, mille liik on paber ja papp
-        Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tÃ¼Ã¼pi objekti, mille liik on biol. jÃ¤Ã¤tmed
-        Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tÃ¼Ã¼pi objekti, mille liik on vana elektroonika (kÃ¼lmkapid, arvutid, telekad)
-        Konteiner ohtlikud = new Konteiner("Ohtlikud jäätmed"); //loon uue Konteineri tÃ¼Ã¼pi objekti, mille liik on ohtlikud jÃ¤Ã¤tmed (vÃ¤rvid, kodukeemia, akud) (NB! nende vastuvÃµtmine on piiratud koguseliselt)
-        Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tÃ¼Ã¼pi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
-        Konteiner ehitusprygi = new Konteiner("Ehitusprügi ja segaäätmed"); //Selle eest tuleb maksta jÃ¤Ã¤tmejaamas. 20â‚¬ kuupmeeter.
+        Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tüüpi objekti, mille liik on paber ja papp
+        Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tüüpi objekti, mille liik on biol. jäätmed
+        Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tüüpi objekti, mille liik on vana elektroonika (külmkapid, arvutid, telekad)
+        Konteiner ohtlikud = new Konteiner("Ohtlikud jäätmed"); //loon uue Konteineri tüüpi objekti, mille liik on ohtlikud jÃ¤Ã¤tmed (vÃ¤rvid, kodukeemia, akud) (NB! nende vastuvÃµtmine on piiratud koguseliselt)
+        Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tüüpi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
+        Konteiner ehitusprygi = new Konteiner("Ehitusprügi ja segaäätmed"); //Selle eest tuleb maksta jäätmejaamas. 20â‚¬ kuupmeeter.
 
 
-        String [] pappN2idis = new String [pappJarjend().size()];
-        for (int i = 0; pappJarjend().size() > i; i++) {
-            pappN2idis[i]=(pappJarjend().get(i));
+        String [] pappN2idis = new String [pappJarjend.size()];
+        for (int i = 0; pappJarjend.size() > i; i++) {
+            pappN2idis[i]=(pappJarjend.get(i));
         }
-        String [] bioN2idis = new String [bioJarjend().size()];
-        for (int i = 0; bioJarjend().size() > i; i++) {
-            bioN2idis[i]=(bioJarjend().get(i));
+        String [] bioN2idis = new String [bioJarjend.size()];
+        for (int i = 0; bioJarjend.size() > i; i++) {
+            bioN2idis[i]=(bioJarjend.get(i));
         }
-        String [] eleN2idis = new String [elekterJarjend().size()];
-        for (int i = 0; elekterJarjend().size() > i; i++) {
-            eleN2idis[i]=(elekterJarjend().get(i));
+        String [] eleN2idis = new String [elekterJarjend.size()];
+        for (int i = 0; elekterJarjend.size() > i; i++) {
+            eleN2idis[i]=(elekterJarjend.get(i));
         }
 
-        elektroonika.setPrygi(eleN2idis);
+        elektroonika.setPrygi(eleN2idis); //eri liiki prygi massiivid lähevad eri liiki konteineritesse
         System.out.println(Arrays.toString(elektroonika.getPrygi()));
         bio.setPrygi(bioN2idis);
         System.out.println(Arrays.toString(bio.getPrygi()));
@@ -112,7 +94,7 @@ public class TestPrykkar {
     }
     public static void kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
         for (int i = 0; prygiKonteiner.getPrygi().length > i; i++) {
-            if (kasutajaPrygi.equals(prygiKonteiner.getPrygi()[i])) {//kontrollin, kas kasutaja prügi sobib paberi&papi konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
+            if (kasutajaPrygi.equals(prygiKonteiner.getPrygi()[i])) {//kontrollin, kas kasutaja prügi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
                 System.out.println("Viska see konteinerisse " + prygiKonteiner.getLiik());
                 abiMuutuja++;
             }

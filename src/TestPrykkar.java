@@ -23,7 +23,18 @@ public class TestPrykkar {
         randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
         System.out.println(randomNipp);
     }
+    static void bioJarjend () throws Exception {
+        File bioFail = new File("bio.txt");
+        Scanner sc2 = new Scanner(bioFail);
+        List<String> listBio = new ArrayList<>();
+        while (sc2.hasNextLine()) {
+            String rida = sc2.nextLine();
+            listBio.add(rida);
+        }
+        System.out.println(listBio);
+        sc2.close();
 
+    }
 
     //PEAMEETOD
     public static void main(String[] args) throws Exception {
@@ -36,14 +47,13 @@ public class TestPrykkar {
         Konteiner ehitusprygi = new Konteiner("Ehitusprügi ja segajäätmed"); //Selle eest tuleb maksta jäätmejaamas. 20€ kuupmeeter.
 
         String [] n2idisprygi = new String[]{"paber", "ajaleht", "pappkast", "vihik", "paberkott", "kataloog", "raamat"}; // teoorias võiks lubatud konteineri sisu tulla mõnest failist;
-        String [] bion2idis = new String[]{"kartulikoored", "kohvipaks", "kompott", "potimuld", "toidujäätmed"};
         String [] elen2idis = new String[]{"televiisor", "pesumasin", "arvuti", "külmkapp", "robotkoer"};
 
 
+
+        bioJarjend (); //loeb bioloogilised jäätmed failist sisse
         paberPapp.setPrygi(n2idisprygi);
         System.out.println(Arrays.toString(paberPapp.getPrygi())); //prügikasti sobiva prügi saab välja printida nii
-        bio.setPrygi(bion2idis);
-        System.out.println(Arrays.toString(bio.getPrygi()));
         elektroonika.setPrygi(elen2idis);
         System.out.println(Arrays.toString(elektroonika.getPrygi()));
 

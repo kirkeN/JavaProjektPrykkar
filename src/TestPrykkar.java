@@ -15,50 +15,39 @@ public class TestPrykkar {
         List<String> listNipid = new ArrayList<>();
         while (sc1.hasNextLine()) {
             String rida = sc1.nextLine();//rida tuleb eraldi muutujasse salvestada
-            listNipid.add(rida);
-        }
+            listNipid.add(rida);}
         //System.out.println(listNipid.size());
         sc1.close();
 
         randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
-        System.out.println(randomNipp);
-    }
+        System.out.println(randomNipp);}
     static List<String> bioJarjend() throws Exception {
         File bioFail = new File("bio.txt");
         Scanner sc2 = new Scanner(bioFail);
         List<String> listBio = new ArrayList<>();
         while (sc2.hasNextLine()) {
             String rida = sc2.nextLine();
-            listBio.add(rida);
-        }
+            listBio.add(rida);}
         sc2.close();
-        return listBio;
-
-    }
+        return listBio;}
     static List<String> pappJarjend() throws Exception {
         File pappFail = new File("paber.txt");
         Scanner sc3 = new Scanner(pappFail);
         List<String> listPapp = new ArrayList<>();
         while (sc3.hasNextLine()) {
             String rida = sc3.nextLine();
-            listPapp.add(rida);
-        }
+            listPapp.add(rida);}
         sc3.close();
-        return listPapp;
-
-    }
+        return listPapp;}
     static List<String> elekterJarjend() throws Exception {
         File elekterFail = new File("elekter.txt");
         Scanner sc4 = new Scanner(elekterFail);
         List<String> listElekter = new ArrayList<>();
         while (sc4.hasNextLine()) {
             String rida = sc4.nextLine();
-            listElekter.add(rida);
-        }
+            listElekter.add(rida);}
         sc4.close();
-        return listElekter;
-
-    }
+        return listElekter;}
 
     //PEAMEETOD
     public static void main(String[] args) throws Exception {
@@ -72,16 +61,13 @@ public class TestPrykkar {
 
         String [] pappN2idis = new String [pappJarjend().size()];
         for (int i = 0; pappJarjend().size() > i; i++) {
-            pappN2idis[i]=(pappJarjend().get(i));
-        }
+            pappN2idis[i]=(pappJarjend().get(i));}
         String [] bioN2idis = new String [bioJarjend().size()];
         for (int i = 0; bioJarjend().size() > i; i++) {
-            bioN2idis[i]=(bioJarjend().get(i));
-        }
+            bioN2idis[i]=(bioJarjend().get(i));}
         String [] eleN2idis = new String [elekterJarjend().size()];
         for (int i = 0; elekterJarjend().size() > i; i++) {
-            eleN2idis[i]=(elekterJarjend().get(i));
-        }
+            eleN2idis[i]=(elekterJarjend().get(i));}
 
         elektroonika.setPrygi(eleN2idis);
         System.out.println(Arrays.toString(elektroonika.getPrygi()));
@@ -110,15 +96,12 @@ public class TestPrykkar {
                 System.out.println("Viska see konteinerisse Biolagunevad jäätmed");}}
         for (int g=0; elektroonika.getPrygi().length > g; g++){
             if (kasutajaPrygi.equals(elektroonika.getPrygi()[g])) {
-                System.out.println("Tõsta see konteinerisse elektroonika");
-            }
+                System.out.println("Tõsta see konteinerisse elektroonika");}
             else{
-                abiMuutuja++;
-            }
-        }
-        if (abiMuutuja == paberPapp.getPrygi().length){
-            System.out.println("Sorry, programm on alles poolik, varsti ytlen, kuhu visata!");
-        }
+                abiMuutuja++;}
+            if (abiMuutuja == paberPapp.getPrygi().length){
+                System.out.println("Sorry, sellist prügi ei eksisteeri");}}
+
         nippideJarjend();
     }
 }

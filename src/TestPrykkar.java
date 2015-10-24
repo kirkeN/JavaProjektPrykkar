@@ -88,20 +88,30 @@ public class TestPrykkar {
         String kasutajaPrygi = sc.next();
 
         int abiMuutuja = 0;
-        for (int i=0; paberPapp.getPrygi().length >i; i++){
-            if(kasutajaPrygi.equals(paberPapp.getPrygi()[i])) {//kontrollin, kas kasutaja prügi sobib paberi&papi konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
-                System.out.println("Viska see konteinerisse paber & papp");}} //+ paberPapp.getLiik())
-        for (int j=0; bio.getPrygi().length > j; j++){
+        for (int i = 0; paberPapp.getPrygi().length > i; i++) {
+            if (kasutajaPrygi.equals(paberPapp.getPrygi()[i])) {//kontrollin, kas kasutaja prügi sobib paberi&papi konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
+                System.out.println("Viska see konteinerisse paber & papp");
+                abiMuutuja++;
+            }
+        } //+ paberPapp.getLiik())
+        for (int j = 0; bio.getPrygi().length > j; j++) {
             if (kasutajaPrygi.equals(bio.getPrygi()[j])) {
-                System.out.println("Viska see konteinerisse Biolagunevad jäätmed");}}
-        for (int g=0; elektroonika.getPrygi().length > g; g++){
+                System.out.println("Viska see konteinerisse Biolagunevad jäätmed");
+                abiMuutuja++;
+            }
+        }
+        for (int g = 0; elektroonika.getPrygi().length > g; g++) {
             if (kasutajaPrygi.equals(elektroonika.getPrygi()[g])) {
-                System.out.println("Tõsta see konteinerisse elektroonika");}
-            else{
-                abiMuutuja++;}
-            if (abiMuutuja == paberPapp.getPrygi().length){
-                System.out.println("Sorry, sellist prügi ei eksisteeri");}}
-
+                System.out.println("Tõsta see konteinerisse elektroonika");
+                abiMuutuja++;
+            }
+            /*if (abiMuutuja == paberPapp.getPrygi().length){
+                System.out.println("Sorry, programm on alles poolik, varsti ytlen, kuhu visata!");
+            }*/
+        }
+        if (abiMuutuja == 0){
+            System.out.println("Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit");
+        }
         nippideJarjend();
     }
 }

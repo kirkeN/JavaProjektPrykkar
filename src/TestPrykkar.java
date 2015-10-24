@@ -12,7 +12,7 @@ public class TestPrykkar {
     static void nippideJarjend () throws Exception {
         File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas
         Scanner sc1 = new Scanner(nippideFail);
-        List<String> listNipid = new ArrayList<String>();
+        List<String> listNipid = new ArrayList<>();
         while (sc1.hasNextLine()) {
             String rida = sc1.nextLine();//rida tuleb eraldi muutujasse salvestada
             listNipid.add(rida);
@@ -29,7 +29,7 @@ public class TestPrykkar {
     public static void main(String[] args) throws Exception {
 
         Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tüüpi objekti, mille liik on paber ja papp
-        Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tüüpi objekti, mille liik on biol. jäätmed
+        Konteiner bio = new Konteiner("Biolagunevad jäätmed");//loon uue Konteiner tüüpi objekti, mille liik on biol. jäätmed
 
         String [] n2idisprygi = new String[]{"paber", "ajaleht", "pappkast", "vihik", "paberkott", "kataloog", "raamat"}; // teoorias võiks lubatud konteineri sisu tulla mõnest failist
 
@@ -57,6 +57,6 @@ public class TestPrykkar {
                 System.out.println("Sorry, programm on alles poolik, varsti ytlen, kuhu visata!");
             }
         }
-        nippideJarjend();
+        nippideJarjend ();
     }
 }

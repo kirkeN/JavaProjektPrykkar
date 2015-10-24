@@ -6,7 +6,6 @@ public class Konteiner {
     private String[] prygi; //järjend asjade jaoks, mida võib konteinerisse panna
 
     Konteiner(String liik) {
-        super();
         this.liik = liik;
     }
     Konteiner(String[] prygi) {

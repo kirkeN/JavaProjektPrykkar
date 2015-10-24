@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.Arrays;
 import java.util.*;
+import java.lang.*;
 /**
  * Created by kasutaja on 14.10.2015.
  */
@@ -26,33 +27,40 @@ public class TestPrykkar {
 
 
     //PEAMEETOD
+
     public static void main(String[] args) throws Exception {
 
-        Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tüüpi objekti, mille liik on paber ja papp
-        Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tüüpi objekti, mille liik on biol. jäätmed
-        Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tüüpi objekti, mille liik on vana elektroonika (külmkapid, arvutid, telekad)
-        Konteiner ohtlikud = new Konteiner("Ohtlikud jäätmed"); //loon uue Konteineri tüüpi objekti, mille liik on ohtlikud jäätmed (värvid, kodukeemia, akud) (NB! nende vastuvõtmine on piiratud koguseliselt)
-        Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tüüpi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid
+        Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tÃ¼Ã¼pi objekti, mille liik on paber ja papp
+        Konteiner bio = new Konteiner("Biolagunevad jÃ¤Ã¤tmed");   //loon uue Konteiner tÃ¼Ã¼pi objekti, mille liik on biol. jÃ¤Ã¤tmed
+        Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tÃ¼Ã¼pi objekti, mille liik on vana elektroonika (kÃ¼lmkapid, arvutid, telekad)
+        Konteiner ohtlikud = new Konteiner("Ohtlikud jÃ¤Ã¤tmed"); //loon uue Konteineri tÃ¼Ã¼pi objekti, mille liik on ohtlikud jÃ¤Ã¤tmed (vÃ¤rvid, kodukeemia, akud) (NB! nende vastuvÃµtmine on piiratud koguseliselt)
+        Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tÃ¼Ã¼pi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
+        Konteiner ehitusprygi = new Konteiner("EhitusprÃ¼gi ja segajÃ¤Ã¤tmed"); //Selle eest tuleb maksta jÃ¤Ã¤tmejaamas. 20â‚¬ kuupmeeter.
 
-        String [] n2idisprygi = new String[]{"paber", "ajaleht", "pappkast", "vihik", "paberkott", "kataloog", "raamat"}; // teoorias võiks lubatud konteineri sisu tulla mõnest failist
+        String [] n2idisprygi = new String[]{"paber", "ajaleht", "pappkast", "vihik", "paberkott", "kataloog", "raamat", "Ã¤Ã¤Ã¤"}; // teoorias vÃµiks lubatud konteineri sisu tulla mÃµnest failist;
+        String [] bion2idis = new String[]{"kartulikoored", "kohvipaks", "kompott", "potimuld"};
 
         paberPapp.setPrygi(n2idisprygi);
-        System.out.println(Arrays.toString(paberPapp.getPrygi())); //prügikasti sobiva prügi saab välja printida nii
-
-        //või nii:
-        for (int i=0; paberPapp.getPrygi().length >i; i++){
+        System.out.println(Arrays.toString(paberPapp.getPrygi())); //prÃ¼gikasti sobiva prÃ¼gi saab vÃ¤lja printida nii
+        bio.setPrygi(bion2idis);
+        System.out.println(Arrays.toString(bio.getPrygi()));
+        //vÃµi nii:
+       /* for (int i=0; paberPapp.getPrygi().length >i; i++){
             System.out.println(paberPapp.getPrygi()[i]);
-        }
 
+        }
+*/
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n Mis prügi soovid sorteerida?"); // küsin kasutajalt sisendit
+        System.out.println("\n Mis prÃ¼gi soovid sorteerida?"); // kÃ¼sin kasutajalt sisendit
         String kasutajaPrygi = sc.next();
 
         int abiMuutuja = 0;
         for (int i=0; paberPapp.getPrygi().length >i; i++){
-            if(kasutajaPrygi.equals(paberPapp.getPrygi()[i])) {//kontrollin, kas kasutaja prügi sobib paberi&papi konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
+            //kontrollin, kas kasutaja prÃ¼gi sobib paberi&papi konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
+            if(kasutajaPrygi.equals(paberPapp.getPrygi()[i]))
                 System.out.println("Viska see konteinerisse paber & papp"); //+ paberPapp.getLiik())
-            }
+            if(kasutajaPrygi.equals(bio.getPrygi()[i]))
+                System.out.println("Viska see konteinerisse Biolagunevad jÃ¤Ã¤tmed");
             else{
                 abiMuutuja++;
             }

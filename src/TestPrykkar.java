@@ -12,7 +12,7 @@ public class TestPrykkar {
     static void nippideJarjend () throws Exception {
         File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas
         Scanner sc1 = new Scanner(nippideFail);
-        List<String> listNipid = new ArrayList<String>();
+        List<String> listNipid = new ArrayList<>();
         while (sc1.hasNextLine()) {
             String rida = sc1.nextLine();//rida tuleb eraldi muutujasse salvestada
             listNipid.add(rida);
@@ -76,6 +76,6 @@ public class TestPrykkar {
             if (abiMuutuja == paberPapp.getPrygi().length){
                 System.out.println("Sorry, programm on alles poolik, varsti ytlen, kuhu visata!");
             }
+        nippideJarjend();
         }
-     //nippideJarjend();
     }

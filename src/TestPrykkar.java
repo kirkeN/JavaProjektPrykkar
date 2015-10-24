@@ -47,6 +47,18 @@ public class TestPrykkar {
         return listPapp;
 
     }
+    static List<String> elekterJarjend() throws Exception {
+        File elekterFail = new File("elekter.txt");
+        Scanner sc4 = new Scanner(elekterFail);
+        List<String> listElekter = new ArrayList<>();
+        while (sc4.hasNextLine()) {
+            String rida = sc4.nextLine();
+            listElekter.add(rida);
+        }
+        sc4.close();
+        return listElekter;
+
+    }
 
     //PEAMEETOD
     public static void main(String[] args) throws Exception {
@@ -68,7 +80,10 @@ public class TestPrykkar {
         for (int i = 0; bioJarjend().size() > i; i++) {
             bioN2idis[i]=(bioJarjend().get(i));
         }
-
+        String [] eleN2idis = new String [elekterJarjend().size()];
+        for (int i = 0; elekterJarjend().size() > i; i++) {
+            eleN2idis[i]=(elekterJarjend().get(i));
+        }
 
         elektroonika.setPrygi(elen2idis);
         System.out.println(Arrays.toString(elektroonika.getPrygi()));

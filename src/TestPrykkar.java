@@ -70,8 +70,6 @@ public class TestPrykkar {
         Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tüüpi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
         Konteiner ehitusprygi = new Konteiner("Ehitusprügi ja segajäätmed"); //Selle eest tuleb maksta jäätmejaamas. 20€ kuupmeeter.
 
-        String [] elen2idis = new String[]{"televiisor", "pesumasin", "arvuti", "külmkapp", "robotkoer"};
-
         String [] pappN2idis = new String [pappJarjend().size()];
         for (int i = 0; pappJarjend().size() > i; i++) {
             pappN2idis[i]=(pappJarjend().get(i));
@@ -85,7 +83,7 @@ public class TestPrykkar {
             eleN2idis[i]=(elekterJarjend().get(i));
         }
 
-        elektroonika.setPrygi(elen2idis);
+        elektroonika.setPrygi(eleN2idis);
         System.out.println(Arrays.toString(elektroonika.getPrygi()));
         bio.setPrygi(bioN2idis);
         System.out.println(Arrays.toString(bio.getPrygi()));

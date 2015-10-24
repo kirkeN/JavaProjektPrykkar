@@ -51,7 +51,7 @@ public class TestPrykkar {
 
 
 
-        bioJarjend (); //loeb bioloogilised jäätmed failist sisse
+        bioJarjend (); //loeb bioloogilised jäätmed failist sisse ja kuvab need siia.
         paberPapp.setPrygi(n2idisprygi);
         System.out.println(Arrays.toString(paberPapp.getPrygi())); //prügikasti sobiva prügi saab välja printida nii
         elektroonika.setPrygi(elen2idis);
@@ -72,9 +72,9 @@ public class TestPrykkar {
         for (int i=0; paberPapp.getPrygi().length >i; i++){
             if(kasutajaPrygi.equals(paberPapp.getPrygi()[i])) {//kontrollin, kas kasutaja prügi sobib paberi&papi konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
                 System.out.println("Viska see konteinerisse paber & papp");}} //+ paberPapp.getLiik())
-        for (int j=0; bio.getPrygi().length > j; j++){
-            if (kasutajaPrygi.equals(bio.getPrygi()[j])) {
-                System.out.println("Viska see konteinerisse Biolagunevad jäätmed");}}
+   //     for (int j=0; bio.getPrygi().length > j; j++){
+     //       if (kasutajaPrygi.equals(bio.getPrygi()[j])) {
+       //         System.out.println("Viska see konteinerisse Biolagunevad jäätmed");}}
         for (int g=0; elektroonika.getPrygi().length > g; g++){
             if (kasutajaPrygi.equals(elektroonika.getPrygi()[g])) {
                 System.out.println("Tõsta see konteinerisse elektroonika");

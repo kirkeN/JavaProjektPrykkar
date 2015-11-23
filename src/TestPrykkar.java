@@ -6,80 +6,67 @@ import java.util.*;
  */
 public class TestPrykkar {
 
-    static String randomNipp;
+    static String randomNipp;  //annab kasutajale randomiga masiivist √ºhe hea nipi
     static int abiMuutuja = 0; //selleks, et vaadata, kas kasutaja sisestatud prygi on meil listides olemas
+    static Scanner sc;
 
     // nippide lugemine failist
     static void nippideJarjend () throws Exception {
         File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas
-        Scanner sc1 = new Scanner(nippideFail);
+        sc = new Scanner(nippideFail);
         List<String> listNipid = new ArrayList<>();
-        while (sc1.hasNextLine()) {
-            String rida = sc1.nextLine();//rida tuleb eraldi muutujasse salvestada
+        while (sc.hasNextLine()) {
+            String rida = sc.nextLine();//rida tuleb eraldi muutujasse salvestada
             listNipid.add(rida);}
         //System.out.println(listNipid.size());
-        sc1.close();
+        sc.close();
 
         randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
         System.out.println(randomNipp);
     }
-
+    //loeb failist pr√ºgi ja viskab selle arraylisti, mille ka tagastab
     static List<String> jarjend(File fail) throws Exception {
-        Scanner sc0 = new Scanner(fail);
+        sc = new Scanner(fail);
         List<String> jaatmeList = new ArrayList<>();
-        while (sc0.hasNextLine()) {
-            String rida = sc0.nextLine();
+        while (sc.hasNextLine()) {
+            String rida = sc.nextLine();
             jaatmeList.add(rida);}
-        sc0.close();
+        sc.close();
         return jaatmeList;
+    }
+    //meetod prindib v√§lja konteineri (listi) sisu
+    public static void konteinerList(List<String> prygiList) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : prygiList) {
+            sb.append(s);
+            sb.append("\t");
+        }
+        System.out.println(prygiList.toString());
     }
 
     //PEAMEETOD
     public static void main(String[] args) throws Exception {
-        File elekterFail = new File("elekter.txt"); //iga prygiliigi kohta andmed eri failides hetkel
-        File pappFail = new File("paber.txt");
-        File bioFail = new File("bio.txt");
-        List<String> bioJarjend = new ArrayList<>(jarjend(bioFail)); //failist loetud prygi salvestan j2rjendisse
-        List<String> pappJarjend = new ArrayList<>(jarjend(pappFail));
-        List<String> elekterJarjend = new ArrayList<>(jarjend(elekterFail));
+        List<String> bioJarjend = new ArrayList<>(jarjend(new File("bio.txt"))); //iga pr√ºgiliigi kohta andmed eraldi failides hetkel. loetud prygi salvestan j2rjendisse
+        List<String> pappJarjend = new ArrayList<>(jarjend(new File("paber.txt")));
+        List<String> elekterJarjend = new ArrayList<>(jarjend(new File("elekter.txt")));
 
-        Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner t¸¸pi objekti, mille liik on paber ja papp
-        Konteiner bio = new Konteiner("Biolagunevad j‰‰tmed");   //loon uue Konteiner t¸¸pi objekti, mille liik on biol. j‰‰tmed
-        Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri t¸¸pi objekti, mille liik on vana elektroonika (k¸lmkapid, arvutid, telekad)
-        Konteiner ohtlikud = new Konteiner("Ohtlikud j‰‰tmed"); //loon uue Konteineri t¸¸pi objekti, mille liik on ohtlikud j√§√§tmed (v√§rvid, kodukeemia, akud) (NB! nende vastuv√µtmine on piiratud koguseliselt)
-        Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri t¸¸pi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
-        Konteiner ehitusprygi = new Konteiner("Ehituspr¸gi ja sega‰‰tmed"); //Selle eest tuleb maksta j‰‰tmejaamas. 20‚Ç¨ kuupmeeter.
+        Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
+        Konteiner bio = new Konteiner("Biolagunevad jaatmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
+        Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tyypi objekti, mille liik on vana elektroonika (kÔøΩlmkapid, arvutid, telekad)
+        Konteiner ohtlikud = new Konteiner("Ohtlikud jaatmed"); //loon uue Konteineri tyypi objekti, mille liik on ohtlikud j√§√§tmed (v√§rvid, kodukeemia, akud) (NB! nende vastuv√µtmine on piiratud koguseliselt)
+        Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tyypi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
+        Konteiner ehitusprygi = new Konteiner("Ehitusprygi ja segaaatmed"); //Selle eest tuleb maksta j22tmejaamas. 20‚Ç¨ kuupmeeter.
 
-
-        String [] pappN2idis = new String [pappJarjend.size()];
-        for (int i = 0; pappJarjend.size() > i; i++) {
-            pappN2idis[i]=(pappJarjend.get(i));
-        }
-        String [] bioN2idis = new String [bioJarjend.size()];
-        for (int i = 0; bioJarjend.size() > i; i++) {
-            bioN2idis[i]=(bioJarjend.get(i));
-        }
-        String [] eleN2idis = new String [elekterJarjend.size()];
-        for (int i = 0; elekterJarjend.size() > i; i++) {
-            eleN2idis[i]=(elekterJarjend.get(i));
-        }
-
-        elektroonika.setPrygi(eleN2idis); //eri liiki prygi massiivid l‰hevad eri liiki konteineritesse
-        System.out.println(Arrays.toString(elektroonika.getPrygi()));
-        bio.setPrygi(bioN2idis);
-        System.out.println(Arrays.toString(bio.getPrygi()));
-        paberPapp.setPrygi(pappN2idis);
-        System.out.println(Arrays.toString(paberPapp.getPrygi()));
-
-        //vıi nii:
-        /*
-       for (int i=0; paberPapp.getPrygi().length >i; i++){
-            System.out.println(paberPapp.getPrygi()[i]);
-        }
-        */
+        //eri liiki prygi listid l2hevad eri liiki konteineritesse
+        elektroonika.setPrygi(elekterJarjend);
+        konteinerList(elektroonika.getPrygi());
+        bio.setPrygi(bioJarjend);
+        konteinerList(bio.getPrygi());
+        paberPapp.setPrygi(pappJarjend);
+        konteinerList(paberPapp.getPrygi());
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n Mis pr¸gi soovid sorteerida?"); // k¸sin kasutajalt sisendit
+        System.out.println("\n Mis prygi soovid sorteerida?"); // kysin kasutajalt sisendit, mis prygi ta tahab sorteerida ja salvestan selle muutujasse "kasutajaPrygi"
         String kasutajaPrygi = sc.next();
 
         kuhuVisata(bio, kasutajaPrygi);
@@ -93,8 +80,8 @@ public class TestPrykkar {
         nippideJarjend ();
     }
     public static void kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
-        for (int i = 0; prygiKonteiner.getPrygi().length > i; i++) {
-            if (kasutajaPrygi.equals(prygiKonteiner.getPrygi()[i])) {//kontrollin, kas kasutaja pr¸gi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
+        for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
+            if (prygiKonteiner.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja prÔøΩgi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
                 System.out.println("Viska see konteinerisse " + prygiKonteiner.getLiik());
                 abiMuutuja++;
             }

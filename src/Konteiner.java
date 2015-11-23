@@ -1,14 +1,18 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kasutaja on 14.10.2015.
  */
 public class Konteiner {
     private String liik; //konteineri liik
-    private String[] prygi; //järjend asjade jaoks, mida võib konteinerisse panna
+    //private String[] prygi; //jï¿½rjend asjade jaoks, mida vï¿½ib konteinerisse panna
+    private List<String> prygi;
 
     Konteiner(String liik) {
         this.liik = liik;
     }
-    Konteiner(String[] prygi) {
+    Konteiner(List<String> prygi) {
         this.prygi = prygi;
     }
     String getLiik() {
@@ -17,10 +21,10 @@ public class Konteiner {
     void setLiik(String liik){
         this.liik = liik;
     }
-    String[] getPrygi() {
+    List<String> getPrygi() {
         return prygi;
     }
-    void setPrygi(String[] prygi){
+    void setPrygi(List<String> prygi){
         this.prygi = prygi;
     }
 

@@ -1,14 +1,20 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.*;
 /**
  * Created by kasutaja on 14.10.2015.
  */
-public class TestPrykkar {
+public class TestPrykkar extends Application{
 
     static String randomNipp;  //annab kasutajale randomiga masiivist ühe hea nipi
     static int abiMuutuja = 0; //selleks, et vaadata, kas kasutaja sisestatud prygi on meil listides olemas
     static Scanner sc;
+    static Stage stage;
 
     // nippide lugemine failist
     static void nippideJarjend () throws Exception {
@@ -35,7 +41,7 @@ public class TestPrykkar {
         return jaatmeList;
     }
     //meetod prindib välja konteineri (listi) sisu
-    public static void konteinerList(List<String> prygiList) {
+    public static void prindiKonteineriList(List<String> prygiList) {
         StringBuilder sb = new StringBuilder();
         for (String s : prygiList) {
             sb.append(s);
@@ -59,11 +65,11 @@ public class TestPrykkar {
 
         //eri liiki prygi listid l2hevad eri liiki konteineritesse
         elektroonika.setPrygi(elekterJarjend);
-        konteinerList(elektroonika.getPrygi());
+        prindiKonteineriList(elektroonika.getPrygi());
         bio.setPrygi(bioJarjend);
-        konteinerList(bio.getPrygi());
+        prindiKonteineriList(bio.getPrygi());
         paberPapp.setPrygi(pappJarjend);
-        konteinerList(paberPapp.getPrygi());
+        prindiKonteineriList(paberPapp.getPrygi());
 
         Scanner sc = new Scanner(System.in);
         System.out.println("\n Mis prygi soovid sorteerida?"); // kysin kasutajalt sisendit, mis prygi ta tahab sorteerida ja salvestan selle muutujasse "kasutajaPrygi"
@@ -78,6 +84,7 @@ public class TestPrykkar {
         }
 
         nippideJarjend ();
+
     }
     public static void kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
         for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
@@ -86,5 +93,15 @@ public class TestPrykkar {
                 abiMuutuja++;
             }
         }
+    }
+
+   @Override
+   public void start(Stage primaryStage) throws Exception {
+        //stage = primaryStage;
+        StackPane stack = new StackPane();
+        Scene scene = new Scene(stack, 500, 800);
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
     }
 }

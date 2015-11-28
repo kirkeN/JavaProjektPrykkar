@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Created by kasutaja on 14.10.2015.
  */
-public class TestPrykkar extends Application{
+public class TestPrykkar {
 
     static String randomNipp;  //annab kasutajale randomiga masiivist ühe hea nipi
     static int abiMuutuja = 0; //selleks, et vaadata, kas kasutaja sisestatud prygi on meil listides olemas
@@ -17,29 +17,33 @@ public class TestPrykkar extends Application{
     static Stage stage;
 
     // nippide lugemine failist
-    static void nippideJarjend () throws Exception {
+    static void nippideJarjend() throws Exception {
         File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas
         sc = new Scanner(nippideFail);
         List<String> listNipid = new ArrayList<>();
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();//rida tuleb eraldi muutujasse salvestada
-            listNipid.add(rida);}
+            listNipid.add(rida);
+        }
         //System.out.println(listNipid.size());
         sc.close();
 
         randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
         System.out.println(randomNipp);
     }
+
     //loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
     static List<String> jarjend(File fail) throws Exception {
         sc = new Scanner(fail);
         List<String> jaatmeList = new ArrayList<>();
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();
-            jaatmeList.add(rida);}
+            jaatmeList.add(rida);
+        }
         sc.close();
         return jaatmeList;
     }
+
     //meetod prindib välja konteineri (listi) sisu
     public static void prindiKonteineriList(List<String> prygiList) {
         StringBuilder sb = new StringBuilder();
@@ -83,9 +87,10 @@ public class TestPrykkar extends Application{
             System.out.println("Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit");
         }
 
-        nippideJarjend ();
+        nippideJarjend();
 
     }
+
     public static void kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
         for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
             if (prygiKonteiner.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja pr�gi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
@@ -94,14 +99,5 @@ public class TestPrykkar extends Application{
             }
         }
     }
-
-   @Override
-   public void start(Stage primaryStage) throws Exception {
-        //stage = primaryStage;
-        StackPane stack = new StackPane();
-        Scene scene = new Scene(stack, 500, 800);
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
-    }
 }
+

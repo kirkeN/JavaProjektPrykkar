@@ -27,12 +27,11 @@ public class Java_fx extends Application {
     Konteiner ohtlikud = new Konteiner("Ohtlikud jaatmed"); //loon uue Konteineri tyypi objekti, mille liik on ohtlikud jäätmed (värvid, kodukeemia, akud) (NB! nende vastuvõtmine on piiratud koguseliselt)
     Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tyypi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
     Konteiner ehitusprygi = new Konteiner("Ehitusprygi ja segaaatmed"); //Selle eest tuleb maksta j22tmejaamas. 20€ kuupmeeter.
-    static int abiMuutuja = 0; //selleks, et vaadata, kas kasutaja sisestatud prygi on
 
     public void start(Stage primaryStage)throws Exception {
         primaryStage.setResizable(true);
         VBox vbox = new VBox();
-        Scene scene = new Scene(vbox, 500, 800);
+        Scene scene = new Scene(vbox, 500, 200);
         primaryStage.setScene(scene);
 
         //Visuaalid
@@ -51,15 +50,63 @@ public class Java_fx extends Application {
         bio.setPrygi(jarjend(new File("bio.txt")));
         elektroonika.setPrygi(jarjend(new File("elekter.txt")));
 
+        //mis prygi soovid sorteerida vaated (kohe ei n2ita)
+        StackPane sobivKonteinerLayout = new StackPane();
+        Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 400,400);
+
+        //"Sorteeri!" nupp ACTION!
+        sorteeriNupp.setOnAction(event -> {
+            String input = kasutajaInput.getText();
+            String sobivKonteiner = "";
+            if (kuhuVisata(bio, input) != "") {
+                sobivKonteiner = kuhuVisata(bio, input);
+            } else if (kuhuVisata(elektroonika, input) != ""){
+                sobivKonteiner = kuhuVisata(elektroonika, input);
+            } else if (kuhuVisata(paberPapp, input)!= ""){
+                sobivKonteiner = kuhuVisata(paberPapp, input);
+            } else{
+                sobivKonteiner = "Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit";
+            }
+            Label sobivKonteiner2 = new Label(sobivKonteiner);
+            sobivKonteinerLayout.getChildren().add(sobivKonteiner2);
+            primaryStage.setScene(sobivKonteinerScene);
+        });
+
+        //konteineri sisu vaade (kohe ei n2ita)
+        // #1 Bio
+        StackPane bioj22tmedLayout = new StackPane();
+        Scene bioj22tmedScene = new Scene(bioj22tmedLayout, 400, 400);
+        // #2 Paber
+        StackPane paberLayout = new StackPane();
+        Scene paberScene = new Scene(paberLayout, 400, 400);
+        // #3 elektroonika
+        StackPane elektroonikaLayout = new StackPane();
+        Scene elektroonikaScene = new Scene(elektroonikaLayout, 400, 400);
+
+        //"Biolagunevad j22tmed" nupp ACTION!
+        bioNupp.setOnAction(event -> {
+            Label bioLabel = new Label(prindiKonteineriList(bio).toString());
+            bioj22tmedLayout.getChildren().add(bioLabel);
+            primaryStage.setScene(bioj22tmedScene);
+        });
+        //"Paber ja kartong" nupp ACTION!
+        paberNupp.setOnAction(event -> {
+            Label paberLabel = new Label(prindiKonteineriList(paberPapp).toString());
+            paberLayout.getChildren().add(paberLabel);
+            primaryStage.setScene(paberScene);
+        });
+        //"Vanametall" nupp ACTION!
+        metallNupp.setOnAction(event -> {
+            Label elektroonikaLabel = new Label(prindiKonteineriList(elektroonika).toString());
+            elektroonikaLayout.getChildren().add(elektroonikaLabel);
+            primaryStage.setScene(elektroonikaScene);
+        });
+
         //nippide vaade (kohe ei n2ita)
         StackPane nipidLayout = new StackPane();
         Scene nipidScene = new Scene (nipidLayout, 900, 75);
 
-        //mis prygi soovid sorteerida vaade (kohe ei n2ita)
-        StackPane sobivKonteinerLayout = new StackPane();
-        Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 400,400);
-
-        //Nipid nupp ACTION!
+        //"Nipid" nupp ACTION!
         nipidNupp.setOnAction(event -> {
             try {
                 nippideJarjend();
@@ -69,29 +116,12 @@ public class Java_fx extends Application {
             Label nipp = new Label(randomNipp);
                 nipidLayout.getChildren().add(nipp);
                 primaryStage.setScene(nipidScene);
-
-        });
-
-        //sorteeri prygi ACTION!
-        sorteeriNupp.setOnAction(event -> {
-                    String input = kasutajaInput.getText();
-                    String sobivKonteiner = "";
-                    if (kuhuVisata(bio, input) != "") {
-                        sobivKonteiner = kuhuVisata(bio, input);
-                    } else if (kuhuVisata(elektroonika, input) != ""){
-                        sobivKonteiner = kuhuVisata(elektroonika, input);
-                    } else if (kuhuVisata(paberPapp, input)!= ""){
-                        sobivKonteiner = kuhuVisata(paberPapp, input);
-                    }
-            Label sobivKonteiner2 = new Label(sobivKonteiner);
-            sobivKonteinerLayout.getChildren().add(sobivKonteiner2);
-            primaryStage.setScene(sobivKonteinerScene);
         });
 
         primaryStage.setTitle("Prykkar");
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> System.exit(0));
-    }
+    } //STAGE LÕPP
 
     // MEETODID ALGAVAD SIIT
     // nippide lugemine failist
@@ -119,13 +149,14 @@ public class Java_fx extends Application {
         return jaatmeList;
     }
     //prindib välja konteineri sisu
-    public static void prindiKonteineriList(List<String> prygiList) {
+    public static List<String> prindiKonteineriList(Konteiner konteiner) {
+        List<String> prygiList = konteiner.getPrygi();
         StringBuilder sb = new StringBuilder();
         for (String s : prygiList) {
             sb.append(s);
-            sb.append("\t");
-        }
-        System.out.println(prygiList.toString());
+            sb.append("\n");
+        } //System.out.println(prygiList);
+        return prygiList;
     }
     //ytleb kasutajale, millisesse konteinerisse prygi visata
     public static String kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
@@ -133,10 +164,8 @@ public class Java_fx extends Application {
         for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
             if (prygiKonteiner.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja prygi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
                 //System.out.println("Viska see konteinerisse " + prygiKonteiner.getLiik());
-                abiMuutuja++;
                 sobivKonteiner = prygiKonteiner.getLiik();
             }
-        }
-        return sobivKonteiner;
+        } return sobivKonteiner;
     }
 }

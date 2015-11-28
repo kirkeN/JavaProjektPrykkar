@@ -24,14 +24,11 @@ public class TestPrykkar {
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();//rida tuleb eraldi muutujasse salvestada
             listNipid.add(rida);
-        }
-        //System.out.println(listNipid.size());
+        } //System.out.println(listNipid.size());
         sc.close();
-
         randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
         System.out.println(randomNipp);
     }
-
     //loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
     static List<String> jarjend(File fail) throws Exception {
         sc = new Scanner(fail);
@@ -39,21 +36,17 @@ public class TestPrykkar {
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();
             jaatmeList.add(rida);
-        }
-        sc.close();
+        } sc.close();
         return jaatmeList;
     }
-
     //meetod prindib välja konteineri (listi) sisu
     public static void prindiKonteineriList(List<String> prygiList) {
         StringBuilder sb = new StringBuilder();
         for (String s : prygiList) {
             sb.append(s);
             sb.append("\t");
-        }
-        System.out.println(prygiList.toString());
+        } System.out.println(prygiList.toString());
     }
-
     //PEAMEETOD
     public static void main(String[] args) throws Exception {
         //eri liiki prygi listid l2hevad eri liiki konteineritesse

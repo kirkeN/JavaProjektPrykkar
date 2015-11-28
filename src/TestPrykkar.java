@@ -56,23 +56,19 @@ public class TestPrykkar {
 
     //PEAMEETOD
     public static void main(String[] args) throws Exception {
-        List<String> bioJarjend = new ArrayList<>(jarjend(new File("bio.txt"))); //iga prügiliigi kohta andmed eraldi failides hetkel. loetud prygi salvestan j2rjendisse
-        List<String> pappJarjend = new ArrayList<>(jarjend(new File("paber.txt")));
-        List<String> elekterJarjend = new ArrayList<>(jarjend(new File("elekter.txt")));
-
+        //eri liiki prygi listid l2hevad eri liiki konteineritesse
         Konteiner paberPapp = new Konteiner("Paber & Kartong"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
+        paberPapp.setPrygi(jarjend(new File("paber.txt")));
         Konteiner bio = new Konteiner("Biolagunevad jaatmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
+        bio.setPrygi(jarjend(new File("bio.txt")));
         Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tyypi objekti, mille liik on vana elektroonika (k�lmkapid, arvutid, telekad)
+        elektroonika.setPrygi(jarjend(new File("elekter.txt")));
         Konteiner ohtlikud = new Konteiner("Ohtlikud jaatmed"); //loon uue Konteineri tyypi objekti, mille liik on ohtlikud jäätmed (värvid, kodukeemia, akud) (NB! nende vastuvõtmine on piiratud koguseliselt)
         Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tyypi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
         Konteiner ehitusprygi = new Konteiner("Ehitusprygi ja segaaatmed"); //Selle eest tuleb maksta j22tmejaamas. 20€ kuupmeeter.
 
-        //eri liiki prygi listid l2hevad eri liiki konteineritesse
-        elektroonika.setPrygi(elekterJarjend);
         prindiKonteineriList(elektroonika.getPrygi());
-        bio.setPrygi(bioJarjend);
         prindiKonteineriList(bio.getPrygi());
-        paberPapp.setPrygi(pappJarjend);
         prindiKonteineriList(paberPapp.getPrygi());
 
         Scanner sc = new Scanner(System.in);
@@ -88,7 +84,6 @@ public class TestPrykkar {
         }
 
         nippideJarjend();
-
     }
 
     public static void kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {

@@ -24,6 +24,9 @@ public class Java_fx extends Application {
     Konteiner paberPapp = new Konteiner("Paber ja kartong"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
     Konteiner bio = new Konteiner("Biolagunevad jaatmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
     Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tyypi objekti, mille liik on vana elektroonika (k�lmkapid, arvutid, telekad)
+    Konteiner ohtlikud = new Konteiner("Ohtlikud jaatmed"); //loon uue Konteineri tyypi objekti, mille liik on ohtlikud jäätmed (värvid, kodukeemia, akud) (NB! nende vastuvõtmine on piiratud koguseliselt)
+    Konteiner pakend = new Konteiner("Segapakendid"); //loon uue Konteineri tyypi objekti, mille liik on Papp,kilepakendid,igast segapakendid ja pakkimisvahendid (kui ei ole sorteeritud, tuleb maksta)
+    Konteiner ehitusprygi = new Konteiner("Ehitusprygi ja segaaatmed"); //Selle eest tuleb maksta j22tmejaamas. 20€ kuupmeeter.
     static int abiMuutuja = 0; //selleks, et vaadata, kas kasutaja sisestatud prygi on
 
     public void start(Stage primaryStage)throws Exception {
@@ -43,11 +46,16 @@ public class Java_fx extends Application {
         vbox.setSpacing(5);
         vbox.getChildren().addAll(kysimus, kasutajaInput,sorteeriNupp, paberNupp, bioNupp, metallNupp, nipidNupp);
 
+        //eri liiki prygi listid l2hevad eri liiki konteineritesse
+        paberPapp.setPrygi(jarjend(new File("paber.txt")));
+        bio.setPrygi(jarjend(new File("bio.txt")));
+        elektroonika.setPrygi(jarjend(new File("elekter.txt")));
+
         //nippide vaade (kohe ei n2ita)
         StackPane nipidLayout = new StackPane();
         Scene nipidScene = new Scene (nipidLayout, 900, 75);
 
-        //mis prügi soovid sorteerida vaade (kohe ei näita)
+        //mis prygi soovid sorteerida vaade (kohe ei n2ita)
         StackPane sobivKonteinerLayout = new StackPane();
         Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 400,400);
 
@@ -63,14 +71,6 @@ public class Java_fx extends Application {
                 primaryStage.setScene(nipidScene);
 
         });
-
-        //eri liiki prygi listid l2hevad eri liiki konteineritesse
-        List<String> bioJarjend = new ArrayList<>(jarjend(new File("bio.txt")));
-        bio.setPrygi(bioJarjend);
-        List<String> pappJarjend = new ArrayList<>(jarjend(new File("paber.txt")));
-        paberPapp.setPrygi(pappJarjend);
-        List<String> elekterJarjend = new ArrayList<>(jarjend(new File("elekter.txt")));
-        elektroonika.setPrygi(elekterJarjend);
 
         //sorteeri prygi ACTION!
         sorteeriNupp.setOnAction(event -> {
@@ -94,7 +94,6 @@ public class Java_fx extends Application {
     }
 
     // MEETODID ALGAVAD SIIT
-
     // nippide lugemine failist
     static void nippideJarjend () throws Exception {
         File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas
@@ -128,6 +127,7 @@ public class Java_fx extends Application {
         }
         System.out.println(prygiList.toString());
     }
+    //ytleb kasutajale, millisesse konteinerisse prygi visata
     public static String kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
         String sobivKonteiner = "";
         for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {

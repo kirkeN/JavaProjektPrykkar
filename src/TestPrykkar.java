@@ -71,6 +71,7 @@ public class TestPrykkar {
         kuhuVisata(bio, kasutajaPrygi);
         kuhuVisata(elektroonika, kasutajaPrygi);
         kuhuVisata(paberPapp, kasutajaPrygi);
+        sarnanePrygiNimi(kasutajaPrygi);
 
         if (abiMuutuja == 0) {
             System.out.println("Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit");
@@ -86,6 +87,18 @@ public class TestPrykkar {
                 abiMuutuja++;
             }
         }
+    }
+    public static void sarnanePrygiNimi (String kasutajaPrygi) {
+        List<String> voimalikudPrygi = new ArrayList<>();
+        char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
+        char[] tahekomplekt = new char[3]; //kontrollin kattuvusi 3-tahelistes kombinatsioonides
+        for (int i = 1; kasutajaPrygiChars.length-1 > i; i++) {
+            tahekomplekt[0] = kasutajaPrygiChars[i-1];
+            tahekomplekt[1] = kasutajaPrygiChars[i];
+            tahekomplekt[2] = kasutajaPrygiChars[i+1];
+            System.out.println(Arrays.toString(tahekomplekt));
+        }
+
     }
 }
 

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -82,13 +83,13 @@ public class Java_fx extends Application {
         //konteineri sisu vaade (kohe ei n2ita)
         // #1 Bio
         VBox bioj22tmedLayout = new VBox();
-        Scene bioj22tmedScene = new Scene(bioj22tmedLayout, 400, 50);
+        Scene bioj22tmedScene = new Scene(bioj22tmedLayout, 400, 600);
         // #2 Paber
         VBox paberLayout = new VBox();
-        Scene paberScene = new Scene(paberLayout, 400, 50);
+        Scene paberScene = new Scene(paberLayout, 400, 600);
         // #3 elektroonika
         VBox elektroonikaLayout = new VBox();
-        Scene elektroonikaScene = new Scene(elektroonikaLayout, 400, 50);
+        Scene elektroonikaScene = new Scene(elektroonikaLayout, 400, 600);
 
         //"Biolagunevad j22tmed" nupp ACTION!
         bioNupp.setOnAction(event -> {
@@ -123,7 +124,7 @@ public class Java_fx extends Application {
 
         //nippide vaade (kohe ei n2ita)
         VBox nipidLayout = new VBox();
-        Scene nipidScene = new Scene (nipidLayout, 900, 75);
+        Scene nipidScene = new Scene (nipidLayout, 500, 200);
 
         //"Nipid" nupp ACTION!
         nipidNupp.setOnAction(event -> {
@@ -133,6 +134,7 @@ public class Java_fx extends Application {
                 e.printStackTrace();
             }
             Label nipp = new Label(randomNipp);
+            nipp.setWrapText(true);
                 nipidLayout.getChildren().addAll(nipp, tagasiNupp);
                 primaryStage.setScene(nipidScene);
             tagasiNupp.setOnAction(event2 -> {
@@ -172,14 +174,13 @@ public class Java_fx extends Application {
         return jaatmeList;
     }
     //prindib välja konteineri sisu
-    public static List<String> prindiKonteineriList(Konteiner konteiner) {
+    public static StringBuilder prindiKonteineriList(Konteiner konteiner) {
         List<String> prygiList = konteiner.getPrygi();
         StringBuilder sb = new StringBuilder();
         for (String s : prygiList) {
             sb.append(s);
             sb.append("\n");
-        } //System.out.println(prygiList);
-        return prygiList;
+        }return sb;
     }
     //ytleb kasutajale, millisesse konteinerisse prygi visata
     public static String kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
@@ -190,5 +191,18 @@ public class Java_fx extends Application {
                 sobivKonteiner = prygiKonteiner.getLiik();
             }
         } return sobivKonteiner;
+    }
+    // kui t2pset kasutaja sisestatud sone ei leita, siis hakatakse otsima sarnast prygi
+    public static void sarnanePrygiNimi (String kasutajaPrygi) {
+        List<String> voimalikudPrygi = new ArrayList<>();
+        char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
+        char[] tahekomplekt = new char[3]; //kontrollin kattuvusi 3-tahelistes kombinatsioonides
+        for (int i = 1; kasutajaPrygiChars.length-1 > i; i++) {
+            tahekomplekt[0] = kasutajaPrygiChars[i-1];
+            tahekomplekt[1] = kasutajaPrygiChars[i];
+            tahekomplekt[2] = kasutajaPrygiChars[i+1];
+            System.out.println(Arrays.toString(tahekomplekt));
+        }
+
     }
 }

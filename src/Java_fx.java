@@ -22,6 +22,8 @@ import java.util.Scanner;
 public class Java_fx extends Application {
     static String randomNipp;
     static Scanner sc;
+    static List<String> voimalikPrygiList = new ArrayList<>(); //kasutaja poolt sisestatud prygiga sarnaste sonede list
+
     Konteiner paberPapp = new Konteiner("Paber ja kartong"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
     Konteiner bio = new Konteiner("Biolagunevad jaatmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
     Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tyypi objekti, mille liik on vana elektroonika (k�lmkapid, arvutid, telekad)
@@ -63,18 +65,20 @@ public class Java_fx extends Application {
             String sobivKonteiner = "";
             if (kuhuVisata(bio, input) != "") {
                 sobivKonteiner = kuhuVisata(bio, input);
-            } else if (kuhuVisata(elektroonika, input) != ""){
+            } else if (kuhuVisata(elektroonika, input) != "") {
                 sobivKonteiner = kuhuVisata(elektroonika, input);
-            } else if (kuhuVisata(paberPapp, input)!= ""){
+            } else if (kuhuVisata(paberPapp, input) != "") {
                 sobivKonteiner = kuhuVisata(paberPapp, input);
-            } else{
+            } else if (voimalikPrygiList.isEmpty()){
                 sobivKonteiner = "Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit";
+            }else{
+                sobivKonteiner = prindiArrayList(voimalikPrygiList).toString();
             }
-            Label sobivKonteiner2 = new Label(sobivKonteiner);
-            sobivKonteinerLayout.getChildren().addAll(sobivKonteiner2, tagasiNupp);
+            Label sobivKonteinerLabel = new Label(sobivKonteiner);
+            sobivKonteinerLayout.getChildren().addAll(sobivKonteinerLabel, tagasiNupp);
             primaryStage.setScene(sobivKonteinerScene);
             tagasiNupp.setOnAction(event2 -> {
-                sobivKonteinerLayout.getChildren().remove(sobivKonteiner2);
+                sobivKonteinerLayout.getChildren().remove(sobivKonteinerLabel);
                 primaryStage.setScene(scene);
             }); // -- EI TÖÖTA! ilmselt vaja muuta kasutajaInput interaktiivseks vms
 
@@ -157,11 +161,9 @@ public class Java_fx extends Application {
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();//rida tuleb eraldi muutujasse salvestada
             listNipid.add(rida);}
-        //System.out.println(listNipid.size());
         sc.close();
 
         randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
-       // System.out.println(randomNipp);
     }
     //loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
    public static ArrayList<String> jarjend(File fail) throws Exception {
@@ -182,27 +184,47 @@ public class Java_fx extends Application {
             sb.append("\n");
         }return sb;
     }
+    //prindib välja arraylisti sisu
+    public static StringBuilder prindiArrayList(List<String> massiiv) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : massiiv) {
+            sb.append(s);
+            sb.append("\n");
+        }return sb;
+    }
     //ytleb kasutajale, millisesse konteinerisse prygi visata
     public static String kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
         String sobivKonteiner = "";
         for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
             if (prygiKonteiner.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja prygi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
-                //System.out.println("Viska see konteinerisse " + prygiKonteiner.getLiik());
                 sobivKonteiner = prygiKonteiner.getLiik();
+            }
+            else{
+                sarnanePrygiNimi(kasutajaPrygi, prygiKonteiner.getPrygi().get(i)); //kui tapset vastet konteinerist ei leita, otsitakse sanraseid t2hekombinatsioone sisaldavaid
             }
         } return sobivKonteiner;
     }
     // kui t2pset kasutaja sisestatud sone ei leita, siis hakatakse otsima sarnast prygi
     public static void sarnanePrygiNimi (String kasutajaPrygi, String konteineriPrygi) {
-        List<String> voimalikudPrygi = new ArrayList<>();
         char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
-        char[] tahekomplekt = new char[3]; //kontrollin kattuvusi 3-tahelistes kombinatsioonides
-        for (int i = 1; kasutajaPrygiChars.length-1 > i; i++) {
-            tahekomplekt[0] = kasutajaPrygiChars[i-1];
-            tahekomplekt[1] = kasutajaPrygiChars[i];
-            tahekomplekt[2] = kasutajaPrygiChars[i+1];
-            System.out.println(Arrays.toString(tahekomplekt));
+        char[] konteineriPrygiChars = konteineriPrygi.toCharArray();
+        String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-2];  //kontrollin kattuvusi 3-tahelistes kombinatsioonides, selleks teen massiivid
+        String[] tahekomplekt2 = new String[konteineriPrygiChars.length-2];
+        //kasutaja prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "piim": ["pii"; "iim"]
+        for (int i = 0;  tahekomplekt1.length > i ; i++) {
+            tahekomplekt1[i] = Character.toString(kasutajaPrygiChars[i])+Character.toString(kasutajaPrygiChars[i+1])+Character.toString(kasutajaPrygiChars[i+2]); //Character.toString(char)
         }
-
+        //konteineri prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "paber": [pab; abe; ber]
+        for (int i = 0; i < tahekomplekt2.length; i++) {
+            tahekomplekt2[i] = Character.toString(konteineriPrygiChars[i])+Character.toString(konteineriPrygiChars[i+1])+Character.toString(konteineriPrygiChars[i+2]);
+        }
+        //kontrollin, kas kasutaja prügi sisaldab konteineri prygiga sarnaseid tahekombinatsioone
+        for (int i = 0; i < tahekomplekt1.length; i++) {
+            for (int j = 0; j <tahekomplekt2.length; j++) {
+                if(tahekomplekt1[i].equals(tahekomplekt2[j]) && ! voimalikPrygiList.contains(konteineriPrygi)){
+                    voimalikPrygiList.add(konteineriPrygi);
+                }
+            }
+        }
     }
 }

@@ -110,7 +110,7 @@ public class TestPrykkar {
         //kontrollin, kas kasutaja prügi sisaldab konteineri prygiga sarnaseid tahekombinatsioone
         for (int i = 0; i < tahekomplekt1.length; i++) {
             for (int j = 0; j <tahekomplekt2.length; j++) {
-                if(tahekomplekt1[i].equals(tahekomplekt2[j])){
+                if(tahekomplekt1[i].equals(tahekomplekt2[j])&& ! voimalikPrygiList.contains(konteineriPrygi)){
                     voimalikPrygiList.add(konteineriPrygi);
                 }
             }

@@ -193,7 +193,7 @@ public class Java_fx extends Application {
         } return sobivKonteiner;
     }
     // kui t2pset kasutaja sisestatud sone ei leita, siis hakatakse otsima sarnast prygi
-    public static void sarnanePrygiNimi (String kasutajaPrygi) {
+    public static void sarnanePrygiNimi (String kasutajaPrygi, String konteineriPrygi) {
         List<String> voimalikudPrygi = new ArrayList<>();
         char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
         char[] tahekomplekt = new char[3]; //kontrollin kattuvusi 3-tahelistes kombinatsioonides

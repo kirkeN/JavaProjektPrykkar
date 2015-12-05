@@ -1,6 +1,3 @@
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -14,7 +11,7 @@ public class TestPrykkar {
     static String randomNipp;  //annab kasutajale randomiga masiivist ühe hea nipi
     static int abiMuutuja = 0; //selleks, et vaadata, kas kasutaja sisestatud prygi on meil listides olemas
     static Scanner sc;
-    static Stage stage;
+    static List<String> voimalikPrygiList = new ArrayList<>();
 
     // nippide lugemine failist
     static void nippideJarjend() throws Exception {
@@ -71,10 +68,14 @@ public class TestPrykkar {
         kuhuVisata(bio, kasutajaPrygi);
         kuhuVisata(elektroonika, kasutajaPrygi);
         kuhuVisata(paberPapp, kasutajaPrygi);
-        sarnanePrygiNimi(kasutajaPrygi);
+        //sarnanePrygiNimi(kasutajaPrygi, "televiisor");
 
         if (abiMuutuja == 0) {
-            System.out.println("Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit");
+            if (voimalikPrygiList.isEmpty()) {
+                System.out.println("Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit");
+            } else {
+                System.out.println(voimalikPrygiList.toString());
+            }
         }
 
         nippideJarjend();
@@ -82,23 +83,40 @@ public class TestPrykkar {
 
     public static void kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
         for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
-            if (prygiKonteiner.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja pr�gi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
+            if (prygiKonteiner.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja prygi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
                 System.out.println("Viska see konteinerisse " + prygiKonteiner.getLiik());
                 abiMuutuja++;
             }
+            else{
+                sarnanePrygiNimi(kasutajaPrygi, prygiKonteiner.getPrygi().get(i));
+            }
         }
     }
-    public static void sarnanePrygiNimi (String kasutajaPrygi) {
-        List<String> voimalikudPrygi = new ArrayList<>();
+    public static void sarnanePrygiNimi (String kasutajaPrygi, String konteineriPrygi) {
         char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
-        char[] tahekomplekt = new char[3]; //kontrollin kattuvusi 3-tahelistes kombinatsioonides
-        for (int i = 1; kasutajaPrygiChars.length-1 > i; i++) {
-            tahekomplekt[0] = kasutajaPrygiChars[i-1];
-            tahekomplekt[1] = kasutajaPrygiChars[i];
-            tahekomplekt[2] = kasutajaPrygiChars[i+1];
-            System.out.println(Arrays.toString(tahekomplekt));
+        //System.out.println(Arrays.toString(kasutajaPrygiChars));
+        char[] konteineriPrygiChars = konteineriPrygi.toCharArray();
+        //System.out.println(Arrays.toString(konteineriPrygiChars));
+        String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-2];  //kontrollin kattuvusi 3-tahelistes kombinatsioonides, selleks teen massiivid
+        String[] tahekomplekt2 = new String[konteineriPrygiChars.length-2];
+        //kasutaja prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "piim": ["pii"; "iim"]
+        for (int i = 0;  tahekomplekt1.length > i ; i++) {
+            tahekomplekt1[i] = Character.toString(kasutajaPrygiChars[i])+Character.toString(kasutajaPrygiChars[i+1])+Character.toString(kasutajaPrygiChars[i+2]); //Character.toString(char)
+        } //System.out.println(Arrays.toString(tahekomplekt1));
+        //konteineri prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "paber": [pab; abe; ber]
+        for (int i = 0; i < tahekomplekt2.length; i++) {
+            tahekomplekt2[i] = Character.toString(konteineriPrygiChars[i])+Character.toString(konteineriPrygiChars[i+1])+Character.toString(konteineriPrygiChars[i+2]);
+        } //System.out.println(Arrays.toString(tahekomplekt2));
+        //kontrollin, kas kasutaja prügi sisaldab konteineri prygiga sarnaseid tahekombinatsioone
+        for (int i = 0; i < tahekomplekt1.length; i++) {
+            for (int j = 0; j <tahekomplekt2.length; j++) {
+                if(tahekomplekt1[i].equals(tahekomplekt2[j])){
+                    voimalikPrygiList.add(konteineriPrygi);
+                }
+            }
         }
-
     }
 }
+
+
 

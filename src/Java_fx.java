@@ -72,7 +72,8 @@ public class Java_fx extends Application {
             } else if (voimalikPrygiList.isEmpty()){
                 sobivKonteiner = "Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit";
             }else{
-                sobivKonteiner = prindiArrayList(voimalikPrygiList).toString();
+                sobivKonteiner = "Seda pügi ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  prindiArrayList(voimalikPrygiList).toString();
+                voimalikPrygiList.clear();
             }
             Label sobivKonteinerLabel = new Label(sobivKonteiner);
             sobivKonteinerLayout.getChildren().addAll(sobivKonteinerLabel, tagasiNupp);

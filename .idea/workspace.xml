@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bda24b9b-f258-468b-9e09-4043dfba8922" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bio.txt" afterPath="$PROJECT_DIR$/bio.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/elekter.txt" afterPath="$PROJECT_DIR$/elekter.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/paber.txt" afterPath="$PROJECT_DIR$/paber.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Java_fx.java" afterPath="$PROJECT_DIR$/src/Java_fx.java" />
     </list>
     <ignored path="JavaProjektPrykkar.iws" />
@@ -49,8 +52,8 @@
       <file leaf-file-name="Java_fx.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Java_fx.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.56173915">
-              <caret line="74" column="99" selection-start-line="74" selection-start-column="99" selection-end-line="74" selection-end-column="99" />
+            <state vertical-scroll-proportion="0.37728938">
+              <caret line="93" column="74" selection-start-line="93" selection-start-column="74" selection-end-line="93" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -959,8 +962,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Java_fx.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56173915">
-          <caret line="74" column="99" selection-start-line="74" selection-start-column="99" selection-end-line="74" selection-end-column="99" />
+        <state vertical-scroll-proportion="0.37728938">
+          <caret line="93" column="74" selection-start-line="93" selection-start-column="74" selection-end-line="93" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

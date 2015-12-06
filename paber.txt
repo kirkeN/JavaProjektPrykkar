@@ -7,3 +7,9 @@ kataloog
 raamat
 kast
 papp
+ajakiri
+joonistuspaber
+pappkarp
+paberpakend
+kirjapaber
+kaustik

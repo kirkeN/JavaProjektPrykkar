@@ -11,10 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Kirke on 24.11.2015.
@@ -166,7 +163,7 @@ public class Java_fx extends Application {
 
         randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
     }
-    //loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
+    //MEETOD "jarjend": loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
    public static ArrayList<String> jarjend(File fail) throws Exception {
         sc = new Scanner(fail);
         ArrayList<String> jaatmeList = new ArrayList<>();
@@ -176,16 +173,17 @@ public class Java_fx extends Application {
         sc.close();
         return jaatmeList;
     }
-    //prindib välja konteineri sisu
+    //MEETOD "prindiKonteineriList": prindib välja konteineri sisu
     public static StringBuilder prindiKonteineriList(Konteiner konteiner) {
         List<String> prygiList = konteiner.getPrygi();
+        Collections.sort(prygiList);
         StringBuilder sb = new StringBuilder();
         for (String s : prygiList) {
             sb.append(s);
             sb.append("\n");
         }return sb;
     }
-    //prindib välja arraylisti sisu
+    //MEETOD "prindiArrayList": prindib välja arraylisti sisu
     public static StringBuilder prindiArrayList(List<String> massiiv) {
         StringBuilder sb = new StringBuilder();
         for (String s : massiiv) {
@@ -193,7 +191,7 @@ public class Java_fx extends Application {
             sb.append("\n");
         }return sb;
     }
-    //ytleb kasutajale, millisesse konteinerisse prygi visata
+    //MEETOD "kuhuVisata": ytleb kasutajale, millisesse konteinerisse prygi visata
     public static String kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
         String sobivKonteiner = "";
         for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
@@ -201,11 +199,11 @@ public class Java_fx extends Application {
                 sobivKonteiner = prygiKonteiner.getLiik();
             }
             else{
-                sarnanePrygiNimi(kasutajaPrygi, prygiKonteiner.getPrygi().get(i)); //kui tapset vastet konteinerist ei leita, otsitakse sanraseid t2hekombinatsioone sisaldavaid
+                sarnanePrygiNimi(kasutajaPrygi, prygiKonteiner.getPrygi().get(i)); //kui tapset vastet konteinerist ei leita, otsitakse sanraseid t2hekombinatsioone sisaldavaid vasteid; meetod meetodi sees
             }
         } return sobivKonteiner;
     }
-    // kui t2pset kasutaja sisestatud sone ei leita, siis hakatakse otsima sarnast prygi
+    // MEETOD "sarnanePrygiNimi" : kui t2pset kasutaja sisestatud sone ei leita, siis hakatakse otsima sarnast prygi
     public static void sarnanePrygiNimi (String kasutajaPrygi, String konteineriPrygi) {
         char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
         char[] konteineriPrygiChars = konteineriPrygi.toCharArray();

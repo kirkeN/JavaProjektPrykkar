@@ -42,9 +42,6 @@ public class Java_fx extends Application {
         Button paberNupp = new Button("Paber ja kartong");
         Button bioNupp = new Button("Biolagunevad jäätmed");
         Button metallNupp = new Button("Vanametall");
-        ImageView imv = new ImageView();
-        Image bioPilt = new Image("toidujaatmed.jpg");
-        imv.setImage(bioPilt);
         Button nipidNupp = new Button("Nipid");
         vbox.setSpacing(5);
         vbox.getChildren().addAll(kysimus, kasutajaInput, sorteeriNupp);
@@ -53,10 +50,6 @@ public class Java_fx extends Application {
         //vbox.getChildren().addAll(kysimus, kasutajaInput,sorteeriNupp, paberNupp, bioNupp, metallNupp, nipidNupp);
         border.setCenter(hbox);
         border.setBottom(nipidNupp);
-        HBox pictureRegion = new HBox();
-        pictureRegion.getChildren().add(imv);
-        //gridpane.add(pictureRegion, 1, 1);
-        border.setLeft(pictureRegion);
         Button tagasiNupp = new Button("Tagasi");
 
         //eri liiki prygi listid l2hevad eri liiki konteineritesse
@@ -64,12 +57,10 @@ public class Java_fx extends Application {
         bio.setPrygi(jarjend(new File("bio.txt")));
         elektroonika.setPrygi(jarjend(new File("elekter.txt")));
 
-        //mis prygi soovid sorteerida vaated (kohe ei n2ita)
-        VBox sobivKonteinerLayout = new VBox();
-        Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 300,300);
-
         //"Sorteeri!" nupp ACTION!
         sorteeriNupp.setOnAction(event -> {
+            VBox sobivKonteinerLayout = new VBox();
+            Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 300,300);
             String input = kasutajaInput.getText().toLowerCase();
             String sobivKonteiner = "";
             if (kuhuVisata(bio, input) != "") {
@@ -84,64 +75,58 @@ public class Java_fx extends Application {
                 sobivKonteiner = "Seda pügi ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  prindiArrayList(voimalikPrygiList).toString();
                 voimalikPrygiList.clear();
                 kasutajaInput.clear();
-                //sorteeriNupp.set;
             }
             Label sobivKonteinerLabel = new Label(sobivKonteiner);
             sobivKonteinerLayout.getChildren().addAll(sobivKonteinerLabel, tagasiNupp);
             primaryStage.setScene(sobivKonteinerScene);
             tagasiNupp.setOnAction(event2 -> {
-                sobivKonteinerLayout.getChildren().remove(sobivKonteinerLabel);
                 primaryStage.setScene(scene);
-            }); // -- EI TÖÖTA! ilmselt vaja muuta kasutajaInput interaktiivseks vms
-
+            });
         });
-
-        //konteineri sisu vaade (kohe ei n2ita)
-        // #1 Bio
-        VBox bioj22tmedLayout = new VBox();
-        Scene bioj22tmedScene = new Scene(bioj22tmedLayout, 300, 600);
-        // #2 Paber
-        VBox paberLayout = new VBox();
-        Scene paberScene = new Scene(paberLayout, 300, 600);
-        // #3 elektroonika
-        VBox elektroonikaLayout = new VBox();
-        Scene elektroonikaScene = new Scene(elektroonikaLayout, 300, 600);
-
         //"Biolagunevad j22tmed" nupp ACTION!
         bioNupp.setOnAction(event -> {
+            VBox bioj22tmedLayout = new VBox();
+            Scene bioj22tmedScene = new Scene(bioj22tmedLayout, 300, 600);
             Label bioLabel = new Label(prindiKonteineriList(bio).toString());
-            bioj22tmedLayout.getChildren().addAll(bioLabel, tagasiNupp);
+            ImageView imv = new ImageView(); //pildivaade
+            Image pilt = new Image("toidujaatmed.jpg");
+            imv.setImage(pilt);
+            VBox pictureRegion = new VBox();
+            pictureRegion.getChildren().add(imv);
+            bioj22tmedLayout.getChildren().addAll(bioLabel, pictureRegion, tagasiNupp);
             primaryStage.setScene(bioj22tmedScene);
             tagasiNupp.setOnAction(event2 -> {
-                bioj22tmedLayout.getChildren().remove(bioLabel);
+                //bioj22tmedLayout.getChildren().removeAll(bioLabel, tagasiNupp, pictureRegion);
                 primaryStage.setScene(scene);
             });
         });
         //"Paber ja kartong" nupp ACTION!
         paberNupp.setOnAction(event -> {
+            VBox paberLayout = new VBox();
+            Scene paberScene = new Scene(paberLayout, 300, 600);
             Label paberLabel = new Label(prindiKonteineriList(paberPapp).toString());
             paberLayout.getChildren().addAll(paberLabel, tagasiNupp);
             primaryStage.setScene(paberScene);
             tagasiNupp.setOnAction(event2 -> {
-                paberLayout.getChildren().remove(paberLabel);
                 primaryStage.setScene(scene);
             });
-            paberNupp.focusedProperty();
         });
         //"Vanametall" nupp ACTION!
         metallNupp.setOnAction(event -> {
+            VBox elektroonikaLayout = new VBox();
+            Scene elektroonikaScene = new Scene(elektroonikaLayout, 300, 600);
             Label elektroonikaLabel = new Label(prindiKonteineriList(elektroonika).toString());
-            elektroonikaLayout.getChildren().addAll(elektroonikaLabel, tagasiNupp);
+            ImageView imv = new ImageView(); //pildivaade
+            Image pilt = new Image("metalman.jpg");
+            imv.setImage(pilt);
+            VBox pictureRegion = new VBox();
+            pictureRegion.getChildren().add(imv);
+            elektroonikaLayout.getChildren().addAll(elektroonikaLabel, pictureRegion, tagasiNupp);
             primaryStage.setScene(elektroonikaScene);
             tagasiNupp.setOnAction(event2 -> {
-                elektroonikaLayout.getChildren().remove(elektroonikaLabel);
                 primaryStage.setScene(scene);
             });
         });
-
-        //nippide vaade (kohe ei n2ita)
-        VBox nipidLayout = new VBox();
-        Scene nipidScene = new Scene (nipidLayout, 500, 200);
 
         //"Nipid" nupp ACTION!
         nipidNupp.setOnAction(event -> {
@@ -150,12 +135,13 @@ public class Java_fx extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            VBox nipidLayout = new VBox();
+            Scene nipidScene = new Scene (nipidLayout, 500, 200);
             Label nipp = new Label(randomNipp);
             nipp.setWrapText(true);
                 nipidLayout.getChildren().addAll(nipp, tagasiNupp);
                 primaryStage.setScene(nipidScene);
             tagasiNupp.setOnAction(event2 -> {
-                nipidLayout.getChildren().remove(nipp);
                 primaryStage.setScene(scene);
             });
         });

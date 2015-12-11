@@ -3,10 +3,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -31,7 +30,9 @@ public class Java_fx extends Application {
     public void start(Stage primaryStage)throws Exception {
         primaryStage.setResizable(true);
         VBox vbox = new VBox();
-        Scene scene = new Scene(vbox, 500, 200);
+        HBox hbox = new HBox();
+        BorderPane border = new BorderPane();
+        Scene scene = new Scene(border, 500, 200);
         primaryStage.setScene(scene);
 
         //Visuaalid
@@ -41,10 +42,21 @@ public class Java_fx extends Application {
         Button paberNupp = new Button("Paber ja kartong");
         Button bioNupp = new Button("Biolagunevad jäätmed");
         Button metallNupp = new Button("Vanametall");
+        ImageView imv = new ImageView();
+        Image bioPilt = new Image("toidujaatmed.jpg");
+        imv.setImage(bioPilt);
         Button nipidNupp = new Button("Nipid");
         vbox.setSpacing(5);
-        vbox.getChildren().addAll(kysimus, kasutajaInput,sorteeriNupp, paberNupp, bioNupp, metallNupp, nipidNupp);
-
+        vbox.getChildren().addAll(kysimus, kasutajaInput, sorteeriNupp);
+        hbox.getChildren().addAll(paberNupp, bioNupp, metallNupp);
+        border.setTop(vbox);
+        //vbox.getChildren().addAll(kysimus, kasutajaInput,sorteeriNupp, paberNupp, bioNupp, metallNupp, nipidNupp);
+        border.setCenter(hbox);
+        border.setBottom(nipidNupp);
+        HBox pictureRegion = new HBox();
+        pictureRegion.getChildren().add(imv);
+        //gridpane.add(pictureRegion, 1, 1);
+        border.setLeft(pictureRegion);
         Button tagasiNupp = new Button("Tagasi");
 
         //eri liiki prygi listid l2hevad eri liiki konteineritesse
@@ -54,11 +66,11 @@ public class Java_fx extends Application {
 
         //mis prygi soovid sorteerida vaated (kohe ei n2ita)
         VBox sobivKonteinerLayout = new VBox();
-        Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 400,400);
+        Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 300,300);
 
         //"Sorteeri!" nupp ACTION!
         sorteeriNupp.setOnAction(event -> {
-            String input = kasutajaInput.getText();
+            String input = kasutajaInput.getText().toLowerCase();
             String sobivKonteiner = "";
             if (kuhuVisata(bio, input) != "") {
                 sobivKonteiner = kuhuVisata(bio, input);
@@ -71,6 +83,8 @@ public class Java_fx extends Application {
             }else{
                 sobivKonteiner = "Seda pügi ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  prindiArrayList(voimalikPrygiList).toString();
                 voimalikPrygiList.clear();
+                kasutajaInput.clear();
+                //sorteeriNupp.set;
             }
             Label sobivKonteinerLabel = new Label(sobivKonteiner);
             sobivKonteinerLayout.getChildren().addAll(sobivKonteinerLabel, tagasiNupp);
@@ -85,13 +99,13 @@ public class Java_fx extends Application {
         //konteineri sisu vaade (kohe ei n2ita)
         // #1 Bio
         VBox bioj22tmedLayout = new VBox();
-        Scene bioj22tmedScene = new Scene(bioj22tmedLayout, 400, 600);
+        Scene bioj22tmedScene = new Scene(bioj22tmedLayout, 300, 600);
         // #2 Paber
         VBox paberLayout = new VBox();
-        Scene paberScene = new Scene(paberLayout, 400, 600);
+        Scene paberScene = new Scene(paberLayout, 300, 600);
         // #3 elektroonika
         VBox elektroonikaLayout = new VBox();
-        Scene elektroonikaScene = new Scene(elektroonikaLayout, 400, 600);
+        Scene elektroonikaScene = new Scene(elektroonikaLayout, 300, 600);
 
         //"Biolagunevad j22tmed" nupp ACTION!
         bioNupp.setOnAction(event -> {
@@ -112,6 +126,7 @@ public class Java_fx extends Application {
                 paberLayout.getChildren().remove(paberLabel);
                 primaryStage.setScene(scene);
             });
+            paberNupp.focusedProperty();
         });
         //"Vanametall" nupp ACTION!
         metallNupp.setOnAction(event -> {

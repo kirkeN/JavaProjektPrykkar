@@ -1,4 +1,4 @@
-paber
+﻿paber
 ajaleht
 pappkast
 vihik
@@ -12,4 +12,5 @@ joonistuspaber
 pappkarp
 paberpakend
 kirjapaber
+ümbrik
 kaustik

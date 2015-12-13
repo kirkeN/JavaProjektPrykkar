@@ -21,7 +21,7 @@ import java.util.*;
 public class Java_fx extends Application {
     String randomNipp;
     Scanner sc;
-    List<String> voimalikPrygiList = new ArrayList<>(); //kasutaja poolt sisestatud prygiga sarnaste sonede list
+    public static List<String> voimalikPrygiList = new ArrayList<>(); //kasutaja poolt sisestatud prygiga sarnaste sonede list
     Button tagasiNupp = new Button("Tagasi");
     Stage primaryStage;
     Scene scene;
@@ -78,12 +78,12 @@ public class Java_fx extends Application {
             Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 300,300);
             String input = kasutajaInput.getText().toLowerCase();
             String sobivKonteiner = "";
-            if (kuhuVisata(bio, input) != "") {
-                sobivKonteiner = kuhuVisata(bio, input);
-            } else if (kuhuVisata(elektroonika, input) != "") {
-                sobivKonteiner = kuhuVisata(elektroonika, input);
-            } else if (kuhuVisata(paberPapp, input) != "") {
-                sobivKonteiner = kuhuVisata(paberPapp, input);
+            if (bio.kuhuVisata(input) != "") {
+                sobivKonteiner = bio.kuhuVisata(input);
+            } else if (elektroonika.kuhuVisata(input) != "") {
+                sobivKonteiner = elektroonika.kuhuVisata(input);
+            } else if (paberPapp.kuhuVisata(input) != "") {
+                sobivKonteiner = paberPapp.kuhuVisata(input);
             } else if (voimalikPrygiList.isEmpty()){
                 sobivKonteiner = "Sorry, programm on alles poolik, ei leidnud hetkel sobivat konteinerit";
             }else{
@@ -109,7 +109,7 @@ public class Java_fx extends Application {
                                 case "Klaaspakend":
                                     VBox pakendLayout = new VBox();
                                     Scene pakendiScene = new Scene(pakendLayout, 300, 600);
-                                    Label klaasLabel = new Label(prindiKonteineriList(klaaspakend).toString());
+                                    Label klaasLabel = new Label(klaaspakend.prindiKonteineriList().toString());
                                     pakendLayout.getChildren().addAll(klaasLabel, tagasiNupp);
                                     entryStage.setScene(pakendiScene);
                                     tagasiNupp.setOnAction(event2 -> {
@@ -118,7 +118,7 @@ public class Java_fx extends Application {
                                 case "Metallpakend":
                                     pakendLayout = new VBox();
                                     pakendiScene = new Scene(pakendLayout, 300, 600);
-                                    Label metallLabel = new Label(prindiKonteineriList(metallpakend).toString());
+                                    Label metallLabel = new Label(metallpakend.prindiKonteineriList().toString());
                                     pakendLayout.getChildren().addAll(metallLabel, tagasiNupp);
                                     entryStage.setScene(pakendiScene);
                                     tagasiNupp.setOnAction(event2 -> {
@@ -127,7 +127,7 @@ public class Java_fx extends Application {
                                 case "Plastpakend":
                                     pakendLayout = new VBox();
                                     pakendiScene = new Scene(pakendLayout, 300, 600);
-                                    Label plastLabel = new Label(prindiKonteineriList(plastpakend).toString());
+                                    Label plastLabel = new Label(plastpakend.prindiKonteineriList().toString());
                                     pakendLayout.getChildren().addAll(plastLabel, tagasiNupp);
                                     entryStage.setScene(pakendiScene);
                                     tagasiNupp.setOnAction(event2 -> {
@@ -169,7 +169,7 @@ public class Java_fx extends Application {
         nupp.setOnAction(event -> {
             VBox konteinerLayout = new VBox();
             Scene konteinerScene = new Scene(konteinerLayout, 300, 600);
-            Label konteinerLabel = new Label(prindiKonteineriList(konteiner).toString());
+            Label konteinerLabel = new Label(konteiner.prindiKonteineriList().toString());
             ImageView imv = new ImageView(); //pildivaade
             imv.setImage(pilt);
             VBox pictureRegion = new VBox();
@@ -214,16 +214,6 @@ public class Java_fx extends Application {
         sc.close();
         return jaatmeList;
     }
-   //MEETOD "prindiKonteineriList": prindib välja konteineri sisu
-    public  StringBuilder prindiKonteineriList(Konteiner konteiner) {
-        List<String> prygiList = konteiner.getPrygi();
-        Collections.sort(prygiList);
-        StringBuilder sb = new StringBuilder();
-        for (String s : prygiList) {
-            sb.append(s);
-            sb.append("\n");
-        }return sb;
-    }
     //MEETOD "prindiArrayList": prindib välja arraylisti sisu
     public  StringBuilder prindiArrayList(List<String> massiiv) {
         StringBuilder sb = new StringBuilder();
@@ -231,39 +221,5 @@ public class Java_fx extends Application {
             sb.append(s);
             sb.append("\n");
         }return sb;
-    }
-    //MEETOD "kuhuVisata": ytleb kasutajale, millisesse konteinerisse prygi visata
-    public String kuhuVisata(Konteiner prygiKonteiner, String kasutajaPrygi) {
-        String sobivKonteiner = "";
-        for (int i = 0; prygiKonteiner.getPrygi().size() > i; i++) {
-            if (prygiKonteiner.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja prygi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
-                sobivKonteiner = prygiKonteiner.getLiik();
-            } else{
-                sarnanePrygiNimi(kasutajaPrygi, prygiKonteiner.getPrygi().get(i)); //kui tapset vastet konteinerist ei leita, otsitakse sanraseid t2hekombinatsioone sisaldavaid vasteid; meetod meetodi sees
-            }
-        } return sobivKonteiner;
-    }
-    // MEETOD "sarnanePrygiNimi" : kui t2pset kasutaja sisestatud sone ei leita, siis hakatakse otsima sarnast prygi
-    public void sarnanePrygiNimi (String kasutajaPrygi, String konteineriPrygi) {
-        char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
-        char[] konteineriPrygiChars = konteineriPrygi.toCharArray();
-        String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-2];  //kontrollin kattuvusi 3-tahelistes kombinatsioonides, selleks teen massiivid
-        String[] tahekomplekt2 = new String[konteineriPrygiChars.length-2];
-        //kasutaja prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "piim": ["pii"; "iim"]
-        for (int i = 0;  tahekomplekt1.length > i ; i++) {
-            tahekomplekt1[i] = Character.toString(kasutajaPrygiChars[i])+Character.toString(kasutajaPrygiChars[i+1])+Character.toString(kasutajaPrygiChars[i+2]); //Character.toString(char)
-        }
-        //konteineri prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "paber": [pab; abe; ber]
-        for (int i = 0; i < tahekomplekt2.length; i++) {
-            tahekomplekt2[i] = Character.toString(konteineriPrygiChars[i])+Character.toString(konteineriPrygiChars[i+1])+Character.toString(konteineriPrygiChars[i+2]);
-        }
-        //kontrollin, kas kasutaja prügi sisaldab konteineri prygiga sarnaseid tahekombinatsioone
-        for (int i = 0; i < tahekomplekt1.length; i++) {
-            for (int j = 0; j <tahekomplekt2.length; j++) {
-                if(tahekomplekt1[i].equals(tahekomplekt2[j]) && ! voimalikPrygiList.contains(konteineriPrygi)){
-                    voimalikPrygiList.add(konteineriPrygi);
-                }
-            }
-        }
     }
 }

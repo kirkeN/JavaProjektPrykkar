@@ -19,7 +19,7 @@ import java.util.*;
  * Created by Kirke on 24.11.2015.
  */
 public class Java_fx extends Application {
-    String randomNipp;
+    Nipp randomNipp;
     Scanner sc;
     public static List<String> voimalikPrygiList = new ArrayList<>(); //kasutaja poolt sisestatud prygiga sarnaste sonede list
     Button tagasiNupp = new Button("Tagasi");
@@ -30,9 +30,9 @@ public class Java_fx extends Application {
     Konteiner bio = new Konteiner("Biolagunevad jaatmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
     Konteiner elektroonika = new Konteiner("Vanametall"); //loon uue Konteineri tyypi objekti, mille liik on vana elektroonika (k�lmkapid, arvutid, telekad)
     Konteiner ohtlikud = new Konteiner("Ohtlikud jaatmed"); //loon uue Konteineri tyypi objekti, mille liik on ohtlikud jäätmed (värvid, kodukeemia, akud) (NB! nende vastuvõtmine on piiratud koguseliselt)
-    Konteiner metallpakend = new PakendiKonteiner("Pakend", "Metallpakend"); //loon uue PakendiKonteineri tyypi objekti, mille liik on metallpakend
-    Konteiner klaaspakend = new PakendiKonteiner("Pakend", "Klaaspakend"); //loon uue PakendiKonteineri tyypi objekti
-    Konteiner plastpakend = new PakendiKonteiner("Pakend", "Plastpakend"); //loon uue PakendiKonteineri tyypi objekti
+    PakendiKonteiner metallpakend = new PakendiKonteiner("Pakend", "Metallpakend"); //loon uue PakendiKonteineri tyypi objekti, mille liik on metallpakend
+    PakendiKonteiner klaaspakend = new PakendiKonteiner("Pakend", "Klaaspakend"); //loon uue PakendiKonteineri tyypi objekti
+    PakendiKonteiner plastpakend = new PakendiKonteiner("Pakend", "Plastpakend"); //loon uue PakendiKonteineri tyypi objekti
     Konteiner ehitusprygi = new Konteiner("Ehitusprygi ja segaaatmed"); //Selle eest tuleb maksta j22tmejaamas. 20€ kuupmeeter.
 
     public void start(Stage entryStage)throws Exception {
@@ -103,36 +103,17 @@ public class Java_fx extends Application {
                 .selectedItemProperty()
                 .addListener(
                         (ObservableValue observable, Object oldValue, Object newValue) -> {
-                               // if(pakendiBox.getValue().equals("Klaaspakend")){
                             String pakendiValue = pakendiBox.getValue().toString();
                             switch (pakendiValue) {
                                 case "Klaaspakend":
-                                    VBox pakendLayout = new VBox();
-                                    Scene pakendiScene = new Scene(pakendLayout, 300, 600);
-                                    Label klaasLabel = new Label(klaaspakend.prindiKonteineriList().toString());
-                                    pakendLayout.getChildren().addAll(klaasLabel, tagasiNupp);
-                                    entryStage.setScene(pakendiScene);
-                                    tagasiNupp.setOnAction(event2 -> {
-                                    entryStage.setScene(scene);
-                                    }); break;
+                                    choiceBoxiValik(klaaspakend);
+                                    break;
                                 case "Metallpakend":
-                                    pakendLayout = new VBox();
-                                    pakendiScene = new Scene(pakendLayout, 300, 600);
-                                    Label metallLabel = new Label(metallpakend.prindiKonteineriList().toString());
-                                    pakendLayout.getChildren().addAll(metallLabel, tagasiNupp);
-                                    entryStage.setScene(pakendiScene);
-                                    tagasiNupp.setOnAction(event2 -> {
-                                        entryStage.setScene(scene);
-                                    }); break;
+                                    choiceBoxiValik(metallpakend);
+                                 break;
                                 case "Plastpakend":
-                                    pakendLayout = new VBox();
-                                    pakendiScene = new Scene(pakendLayout, 300, 600);
-                                    Label plastLabel = new Label(plastpakend.prindiKonteineriList().toString());
-                                    pakendLayout.getChildren().addAll(plastLabel, tagasiNupp);
-                                    entryStage.setScene(pakendiScene);
-                                    tagasiNupp.setOnAction(event2 -> {
-                                        entryStage.setScene(scene);
-                                    }); break;
+                                    choiceBoxiValik(plastpakend);
+                                break;
                                 }
                         });
 
@@ -143,13 +124,14 @@ public class Java_fx extends Application {
         //"Nipid" nupp ACTION!
         nipidNupp.setOnAction(event -> {
             try {
-                nippideJarjend();
+                randomNipp = new Nipp("uus nipp");
+                randomNipp.setNipp(randomNipp.nippideJarjend());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             VBox nipidLayout = new VBox();
             Scene nipidScene = new Scene (nipidLayout, 500, 200);
-            Label nipp = new Label(randomNipp);
+            Label nipp = new Label(randomNipp.getNipp().toString());
             nipp.setWrapText(true);
                 nipidLayout.getChildren().addAll(nipp, tagasiNupp);
                 entryStage.setScene(nipidScene);
@@ -164,7 +146,7 @@ public class Java_fx extends Application {
     } //STAGE LÕPP
 
     // MEETODID ALGAVAD SIIT
-    //ACTION MEETOD
+    //konteineri nuppude ACTION MEETOD: kui konteineri nuppu vajutatakse, kuvatakse sinna konteinerisse sobiv prygi ja illustreeriv pilt
     public void nupuvajutus (Button nupp, Konteiner konteiner, Image pilt ) {
         nupp.setOnAction(event -> {
             VBox konteinerLayout = new VBox();
@@ -181,28 +163,16 @@ public class Java_fx extends Application {
             });
         });
     }
-    /*//ChoiceBoxi ACTION meetod
-    public void choiceBoxiValik ()
-    VBox choiceLayout = new VBox();
-    Scene choiceScene = new Scene(choiceLayout, 300, 600);
-    Label choiceLabel = new Label(prindiKonteineriList(klaaspakend).toString());
-    choiceLayout.getChildren().addAll(choiceLabel, tagasiNupp);
-    entryStage.setScene(paberScene);
-    tagasiNupp.setOnAction(event2 -> {
-        entryStage.setScene(scene);
-    });*/
-
-    // nippide lugemine failist
-     void nippideJarjend () throws Exception {
-        File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas
-        sc = new Scanner(nippideFail);
-        List<String> listNipid = new ArrayList<>();
-        while (sc.hasNextLine()) {
-            String rida = sc.nextLine();//rida tuleb eraldi muutujasse salvestada
-            listNipid.add(rida);}
-        sc.close();
-
-        randomNipp = listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valin nipi
+    //ChoiceBoxi (pakendikonteinerid) ACTION meetod
+    public void choiceBoxiValik (PakendiKonteiner pakend) {
+        VBox choiceLayout = new VBox();
+        Scene choiceScene = new Scene(choiceLayout, 300, 600);
+        Label choiceLabel = new Label(pakend.prindiKonteineriList().toString());
+        choiceLayout.getChildren().addAll(choiceLabel, tagasiNupp);
+        primaryStage.setScene(choiceScene);
+        tagasiNupp.setOnAction(event2 -> {
+            primaryStage.setScene(scene);
+        });
     }
     //MEETOD "jarjend": loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
    public  ArrayList<String> jarjend(File fail) throws Exception {

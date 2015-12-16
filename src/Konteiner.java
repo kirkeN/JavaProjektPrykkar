@@ -7,8 +7,7 @@ import java.util.List;
  */
 public class Konteiner {
     public String liik; //konteineri liik
-    //private String[] prygi; //j�rjend asjade jaoks, mida v�ib konteinerisse panna
-    public List<String> prygi;
+    public List<String> prygi; //konteinerisse sobiv prygi
 
     Konteiner(String liik) {
         this.liik = liik;
@@ -28,7 +27,8 @@ public class Konteiner {
     void setPrygi(List<String> prygi){
         this.prygi = prygi;
     }
-    public  StringBuilder prindiKonteineriList() { //prindib välja konteinerisse sobiva prygi
+    //MEETOD "prindiKonteinerList" prindib välja konteinerisse sobiva prygi
+    public  StringBuilder prindiKonteineriList() {
         List<String> prygiList = this.getPrygi();
         Collections.sort(prygiList);
         StringBuilder sb = new StringBuilder();

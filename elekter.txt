@@ -7,9 +7,28 @@ makk
 muusikakeskus
 nõudepesumasin
 föön
-tolmuimeja
 elektripliit
 mikser
 triikraud
 raadio
 kodutehnika
+elektriradiaator
+kliimaseade
+ventilaator
+tolmuimeja
+õmblusmasin
+röster
+kell
+kaal
+kohvimasin
+veekeetja
+lokitangid
+audioseade
+videoseade
+mobiiltelefon
+lauatelefon
+automaatvastaja
+elektrooniline mänguasi
+suitsuandur
+kütteregulaator
+elektriline tööriist

@@ -27,6 +27,7 @@ public class Konteiner {
     void setPrygi(List<String> prygi){
         this.prygi = prygi;
     }
+
     //MEETOD "prindiKonteinerList" prindib välja konteinerisse sobiva prygi
     public  StringBuilder prindiKonteineriList() {
         List<String> prygiList = this.getPrygi();

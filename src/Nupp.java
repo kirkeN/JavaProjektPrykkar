@@ -1,3 +1,4 @@
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 
@@ -13,6 +14,8 @@ public class Nupp extends Button{
         this.tip = tip;
         this.setText(nimi);
         this.setTooltip(new Tooltip(tip));
+        this.setMaxWidth(140);
+        this.setMinWidth(140);
     }
     Nupp(String nimi, String tip, String varv) { //nupu konstruktor nime, vihje ja värvi jaoks
         this.nimi = nimi;
@@ -20,6 +23,8 @@ public class Nupp extends Button{
         this.setText(nimi);
         this.setTooltip(new Tooltip(tip));
         this.setStyle("-fx-base:" + varv + ";-fx-text-fill: #2c333a; -fx-background-radius: 4;-fx-font-weight: bold; -fx-font: 12 helvetica;");
+        this.setMaxWidth(140);
+        this.setMinWidth(140);
     }
 
 

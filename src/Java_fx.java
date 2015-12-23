@@ -1,8 +1,13 @@
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.geometry.*;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -11,9 +16,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 //import javafx.scene.control.Alert;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.List;
+
+import static javafx.geometry.Pos.*;
 
 /**
  * Created by Kirke on 24.11.2015.
@@ -40,41 +49,43 @@ public class Java_fx extends Application {
         entryStage.setResizable(true);
         VBox vbox = new VBox();
         //FlowPane flowpane = new FlowPane();
-        HBox hbox = new HBox();
+        HBox konteineridHbox = new HBox();
+        konteineridHbox.setSpacing(5);
+        VBox konteineridVbox = new VBox();
+        konteineridHbox.setAlignment(CENTER);
         BorderPane border = new BorderPane();
-        scene = new Scene(border, 500, 200);
+        border.setStyle("-fx-padding: 15");
+        scene = new Scene(border, 760, 500);
         entryStage.setScene(scene);
 
         //Visuaalid
         Label kysimus = new Label("Mida soovid sorteerida?");
-        kysimus.setTranslateX(4);
-        kysimus.setTranslateY(2);
         TextField kasutajaInput = new TextField();
         kasutajaInput.setMaxWidth(125);
         Button sorteeriNupp = new Button("Sorteeri");
-        kasutajaInput.setTranslateX(4);
-        kasutajaInput.setTranslateY(2);
         sorteeriNupp.setStyle("-fx-font: 12 helvetica; -fx-base: #b6e7c9;");
-        sorteeriNupp.setTranslateY(2);
-        sorteeriNupp.setTranslateX(4);
-        Nupp paberNupp = new Nupp("PABER JA PAPP", "Pane biojääde SINISESSE konteinerisse!","#4682B4");
+
+        Label selgitusKonteineritele = new Label ("Prügikonteinerid");
+        Nupp paberNupp = new Nupp("PABER JA PAPP", "Pane biojääde SINISESSE konteinerisse!","#9d95d0");
         Nupp bioNupp = new Nupp("BIOJÄÄDE","Pane biojääde PRUUNI konteinerisse!","#d89474");
         Nupp metallNupp = new Nupp("VANAMETALL", "Vii elektroonika elektroonikakauplusesse või jäätmejaama!");
         //metallNupp.setStyle("-fx-background-color:linear-gradient(#B0C4DE 50%, #778899 900%);-fx-text-fill: #1a1a1a; -fx-background-radius: 4; -fx-background-insets: 0,1,4,5,6");
-        Nupp ohtlikNupp = new Nupp("OHTLIKUD JÄÄTMED","Vii ohtlikud jäätmed jäätmejaama või ohtlike jäätmete konteinerisse" ); //linear-gradient(#C0C0C0,#77889
+        Nupp ohtlikNupp = new Nupp("OHTLIKUD JÄÄTMED","Vii ohtlikud jäätmed jäätmejaama või ohtlike jäätmete konteinerisse" );
         ChoiceBox pakendiBox = new ChoiceBox (FXCollections.observableArrayList(
                 "PAKENDID", "Metallpakend", "Klaaspakend", "Plastpakend")
         );
+        pakendiBox.setMinWidth(150);
         pakendiBox.setStyle("-fx-base: #ffe34d; -fx-background-radius: 4;-fx-font-weight: bold; -fx-font: 12 helvetica;");
         pakendiBox.getSelectionModel().selectFirst();
         Button nipidNupp = new Button("Nipp");
         nipidNupp.setStyle("-fx-font: 12 helvetica; -fx-base: #b6e7c9; -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1)");
         vbox.setSpacing(5);
         vbox.getChildren().addAll(kysimus, kasutajaInput, sorteeriNupp, nipidNupp);
-        hbox.getChildren().addAll(pakendiBox,paberNupp, bioNupp, metallNupp, ohtlikNupp);
+        konteineridHbox.getChildren().addAll(pakendiBox,paberNupp, bioNupp, metallNupp, ohtlikNupp);
+        konteineridVbox.getChildren().addAll(selgitusKonteineritele, konteineridHbox);
        // flowpane.setStyle("-fx-base: #b6e7c9;");
         border.setLeft(vbox);
-        border.setTop(hbox);
+        border.setTop(konteineridVbox);
 
         //eri liiki prygi listid l2hevad eri liiki konteineritesse
         paberPapp.setPrygi(jarjend(new File("paber.txt")));
@@ -92,7 +103,7 @@ public class Java_fx extends Application {
             String input = kasutajaInput.getText().toLowerCase();
             String sobivKonteiner = "";
             if (input.isEmpty()){
-                sobivKonteiner = "Ära unusta pürgi sisestada!";
+                sobivKonteiner = "Unustasid pürgi sisestada!";
             } else if (bio.kuhuVisata(input) != "") {
                 sobivKonteiner = bio.kuhuVisata(input);
             } else if (elektroonika.kuhuVisata(input) != "") {

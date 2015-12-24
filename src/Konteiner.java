@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by kasutaja on 14.10.2015.
@@ -53,15 +54,15 @@ public class Konteiner {
     public void sarnanePrygiNimi (String kasutajaPrygi, String konteineriPrygi) {
         char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
         char[] konteineriPrygiChars = konteineriPrygi.toCharArray();
-        String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-2];  //kontrollin kattuvusi 3-tahelistes kombinatsioonides, selleks teen massiivid
-        String[] tahekomplekt2 = new String[konteineriPrygiChars.length-2];
+        String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-3];  //kontrollin kattuvusi 3-tahelistes kombinatsioonides, selleks teen massiivid
+        String[] tahekomplekt2 = new String[konteineriPrygiChars.length-3];
         //kasutaja prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "piim": ["pii"; "iim"]
         for (int i = 0;  tahekomplekt1.length > i ; i++) {
-            tahekomplekt1[i] = Character.toString(kasutajaPrygiChars[i])+Character.toString(kasutajaPrygiChars[i+1])+Character.toString(kasutajaPrygiChars[i+2]); //Character.toString(char)
+            tahekomplekt1[i] = Character.toString(kasutajaPrygiChars[i])+Character.toString(kasutajaPrygiChars[i+1])+Character.toString(kasutajaPrygiChars[i+2])+Character.toString(kasutajaPrygiChars[i+3]); //Character.toString(char)
         }
         //konteineri prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "paber": [pab; abe; ber]
         for (int i = 0; i < tahekomplekt2.length; i++) {
-            tahekomplekt2[i] = Character.toString(konteineriPrygiChars[i])+Character.toString(konteineriPrygiChars[i+1])+Character.toString(konteineriPrygiChars[i+2]);
+            tahekomplekt2[i] = Character.toString(konteineriPrygiChars[i])+Character.toString(konteineriPrygiChars[i+1])+Character.toString(konteineriPrygiChars[i+2])+Character.toString(konteineriPrygiChars[i+3]);
         }
         //kontrollin, kas kasutaja prügi sisaldab konteineri prygiga sarnaseid tahekombinatsioone
         for (int i = 0; i < tahekomplekt1.length; i++) {
@@ -72,6 +73,22 @@ public class Konteiner {
             }
         }
     }
+    //MEETOD 2raarvamism2ng
+    public String randomPrygi () {
+        String arvaPrygi="";
+        for (int i = 0; i < prygi.size(); i++) {
+            arvaPrygi = prygi.get((int) (Math.random() * (prygi.size())));
+        }
+        return arvaPrygi;
+    }
+    public String kasKasutajaArvasAra (String kasutajaVastus) {
+        if (kasutajaVastus.equals(this.getLiik())) {
+            return "Õige";
+        }else{
+            return "Vale, õige on " + this.getLiik();
+        }
+    }
+
 
 }
 

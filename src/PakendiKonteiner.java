@@ -7,6 +7,7 @@ public String alamliik;
 
     PakendiKonteiner(String liik, String alamliik) { //metallpakend, klaaspakend, plastpakend
         super(liik);
+        this.alamliik = alamliik;
     }
     String getAlamliik() {
         return alamliik;

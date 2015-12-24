@@ -1,17 +1,20 @@
-﻿vanad ravimid
+﻿ravimid
 farmaatsiatooted
 akud
 patareid
 värvid
 puhastusained
 lahustid
-õlid ja õlifiltrid
-päevavalguslambid ja säästupirnid
+õlid 
+õlifiltrid
+päevavalguslambid 
+säästupirnid
 saastunud taara
 olmekeemia
 kraadiklaasid
-putuka- ja rotimürgid
+putukamürgid
+rotimürk
 taimekaitsevahendid
-puidukaitse- või immutusvahendid
-asbest ja asbestijäätmed
-kemikaalid ja muud ohtlikud jäätmed
+puidukaitsevahendid
+asbest
+kemikaalid

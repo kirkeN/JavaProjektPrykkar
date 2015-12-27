@@ -25,7 +25,7 @@ public class Nupp extends Button{
         toolTip.setWrapText(true);
         toolTip.setMaxWidth(150);
         this.setTooltip(toolTip);
-        this.setStyle("-fx-base:" + varv + ";-fx-text-fill: #2c333a; -fx-background-radius: 4;-fx-font-weight: bold; -fx-font: 12 helvetica;");
+        this.setStyle("-fx-base:" + varv + "; -fx-text-fill: #2c333a; -fx-background-radius: 4;-fx-font: 12 helvetica");
         this.setMaxWidth(140);
         this.setMinWidth(140);
     }

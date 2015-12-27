@@ -56,11 +56,11 @@ public class Konteiner {
         char[] konteineriPrygiChars = konteineriPrygi.toCharArray();
         String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-3];  //kontrollin kattuvusi 3-tahelistes kombinatsioonides, selleks teen massiivid
         String[] tahekomplekt2 = new String[konteineriPrygiChars.length-3];
-        //kasutaja prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "piim": ["pii"; "iim"]
+        //kasutaja prygist tehakse massiiv, kus on 4-tähelised kombinatsioonid sõnast, nt "piimapakk": ["piim"; "iima"; "imap"; "mapa"; "apak"; "pakk"]
         for (int i = 0;  tahekomplekt1.length > i ; i++) {
             tahekomplekt1[i] = Character.toString(kasutajaPrygiChars[i])+Character.toString(kasutajaPrygiChars[i+1])+Character.toString(kasutajaPrygiChars[i+2])+Character.toString(kasutajaPrygiChars[i+3]); //Character.toString(char)
         }
-        //konteineri prygist tehakse massiiv, kus on 3-tähelised kombinatsioonid sõnast, nt "paber": [pab; abe; ber]
+        //konteineri prygist tehakse massiiv, kus on 4-tähelised kombinatsioonid sõnast, nt "paber": ["pabe"; "aber"]
         for (int i = 0; i < tahekomplekt2.length; i++) {
             tahekomplekt2[i] = Character.toString(konteineriPrygiChars[i])+Character.toString(konteineriPrygiChars[i+1])+Character.toString(konteineriPrygiChars[i+2])+Character.toString(konteineriPrygiChars[i+3]);
         }
@@ -73,7 +73,7 @@ public class Konteiner {
             }
         }
     }
-    //MEETOD 2raarvamism2ng
+    //MEETODID 2raarvamism2ngu tarvis
     public String randomPrygi () {
         String arvaPrygi="";
         for (int i = 0; i < prygi.size(); i++) {
@@ -81,11 +81,11 @@ public class Konteiner {
         }
         return arvaPrygi;
     }
-    public String kasKasutajaArvasAra (String kasutajaVastus) {
+    public boolean kasKasutajaArvasAra (String kasutajaVastus) {
         if (kasutajaVastus.equals(this.getLiik())) {
-            return "Õige";
+            return true;
         }else{
-            return "Vale, õige on " + this.getLiik();
+            return false;
         }
     }
 

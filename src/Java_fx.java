@@ -60,11 +60,13 @@ public class Java_fx extends Application {
         VBox centerBox = new VBox(); //l2heb borderPane'i keskele
         centerBox.setSpacing(3);
         centerBox.setPadding(new Insets(10));
+        //VBox bottomBox = new VBox();
         BorderPane border = new BorderPane();
         border.setStyle("-fx-padding: 15");
         border.setLeft(leftVbox);
         border.setTop(topVbox);
         border.setCenter(centerBox);
+        //border.setBottom(bottomBox);
         scene = new Scene(border, 740, 500);
         entryStage.setScene(scene);
 
@@ -158,9 +160,9 @@ public class Java_fx extends Application {
         });
 
         //"Sorteeri!" nupp ACTION!
+        Pane sobivKonteinerLayout = new Pane();
         sorteeriNupp.setOnAction(event -> {
-            VBox sobivKonteinerLayout = new VBox();
-            Scene sobivKonteinerScene = new Scene(sobivKonteinerLayout, 300,300);
+            sobivKonteinerLayout.getChildren().clear();
             String input = kasutajaInput.getText().toLowerCase();
             String sobivKonteiner = "";
             if (input.isEmpty()){
@@ -176,17 +178,17 @@ public class Java_fx extends Application {
             }  else if (voimalikPrygiList.isEmpty()){
                 sobivKonteiner = "Kahjuks ei leidnud hetkel sobivat konteinerit, vaata äkki leiad midagi sarnast pürgikonteineritele klikkides.";
             }else{
-                sobivKonteiner = "Seda pügi ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  prindiArrayList(voimalikPrygiList).toString();
+                sobivKonteiner = "Prügi " +kasutajaInput.getText() + " ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  prindiArrayList(voimalikPrygiList).toString();
                 voimalikPrygiList.clear();
                 kasutajaInput.clear();
             }
             Label sobivKonteinerLabel = new Label(sobivKonteiner);
-            sobivKonteinerLayout.getChildren().addAll(sobivKonteinerLabel, tagasiNupp);
-            entryStage.setScene(sobivKonteinerScene);
-            tagasiNupp.setOnAction(event2 -> {
-                entryStage.setScene(scene);
-            });
+            sobivKonteinerLabel.setMaxWidth(200);
+            sobivKonteinerLabel.setWrapText(true);
+            sobivKonteinerLayout.getChildren().add(sobivKonteinerLabel);
         });
+       leftVbox.getChildren().add(sobivKonteinerLayout);
+
         // Pakendid choiceBox ACTION!
         pakendiBox.getSelectionModel()
                 .selectedItemProperty()

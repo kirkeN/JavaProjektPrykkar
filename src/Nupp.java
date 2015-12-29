@@ -6,20 +6,8 @@ import javafx.scene.control.Tooltip;
  * Created by Kirke on 22.12.2015.
  */
 public class Nupp extends Button{
-    public String nimi; //nupu nimi
-    public String tip; // nupu vihje
-
-    Nupp(String nimi, String tip) {  //nupu konstruktor nime ja vihje jaoks
-        this.nimi = nimi;
-        this.tip = tip;
-        this.setText(nimi);
-        this.setTooltip(new Tooltip(tip));
-        this.setMaxWidth(140);
-        this.setMinWidth(140);
-    }
-    Nupp(String nimi, String tip, String varv) { //nupu konstruktor nime, vihje ja värvi jaoks
-        this.nimi = nimi;
-        this.tip = tip;
+    //nupu konstruktor nime, vihje ja värvi jaoks
+    Nupp(String nimi, String tip, String varv) {
         this.setText(nimi);
         Tooltip toolTip = new Tooltip(tip);
         toolTip.setWrapText(true);
@@ -29,7 +17,4 @@ public class Nupp extends Button{
         this.setMaxWidth(140);
         this.setMinWidth(140);
     }
-
-
-
 }

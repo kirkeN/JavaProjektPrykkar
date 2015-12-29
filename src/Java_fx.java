@@ -67,7 +67,7 @@ public class Java_fx extends Application {
         border.setTop(topVbox);
         border.setCenter(centerBox);
         //border.setBottom(bottomBox);
-        scene = new Scene(border, 740, 500);
+        scene = new Scene(border, 750, 500);
         entryStage.setScene(scene);
 
         //Visuaalid
@@ -119,9 +119,6 @@ public class Java_fx extends Application {
             ToggleGroup m2nguValikud = new ToggleGroup();
             RadioButton paber = new RadioButton(paberPapp.getLiik());
             RadioButton bioj22de = new RadioButton(bio.getLiik());
-           /* RadioButton klaas = new RadioButton(klaaspakend.getAlamliik());
-            RadioButton metall = new RadioButton(metallpakend.getAlamliik());
-            RadioButton plast = new RadioButton(plastpakend.getAlamliik());*/
             RadioButton pakend = new RadioButton(klaaspakend.getLiik());
             RadioButton elektro = new RadioButton(elektroonika.getLiik());
             RadioButton oht = new RadioButton(ohtlikud.getLiik());
@@ -129,12 +126,6 @@ public class Java_fx extends Application {
             paber.setUserData(paberPapp.getLiik());
             bioj22de.setToggleGroup(m2nguValikud);
             bioj22de.setUserData(bio.getLiik());
-           /* metall.setToggleGroup(m2nguValikud);
-            metall.setUserData(metallpakend.getAlamliik());
-            plast.setToggleGroup(m2nguValikud);
-            plast.setUserData(plastpakend.getAlamliik());
-            klaas.setToggleGroup(m2nguValikud);
-            klaas.setUserData(klaaspakend.getAlamliik());*/
             pakend.setToggleGroup(m2nguValikud);
             pakend.setUserData(klaaspakend.getLiik());
             elektro.setToggleGroup(m2nguValikud);
@@ -142,21 +133,24 @@ public class Java_fx extends Application {
             oht.setToggleGroup(m2nguValikud);
             oht.setUserData(ohtlikud.getLiik());
             centerBox.getChildren().addAll(m2ng,kuhuViskaksid,paber,bioj22de,pakend,elektro,oht);
-            Label vastus = new Label ();
+            VBox oigeVastusBox = new VBox(); // layout 6igele vastusele, mis l2heb centerBoxi
             m2nguValikud.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
                 public void changed(ObservableValue<? extends Toggle> ov,
                                     Toggle old_toggle, Toggle new_toggle) {
+                    oigeVastusBox.getChildren().clear(); //iga kord, kui kasutaja vahetab radiobuttonit, kirjutatakse 6ige vastus yle
+                    Label vastus = new Label();
                     if (m2nguValikud.getSelectedToggle() != null) {
-                        if(juhuslikKonteiner[0].kasKasutajaArvasAra(m2nguValikud.getSelectedToggle().getUserData().toString())) {
-                            vastus.setText("Õige");
-                            }
-                            else{
-                            vastus.setText ("Vale, mõtle järele");
+                        if (juhuslikKonteiner[0].kasKasutajaArvasAra(m2nguValikud.getSelectedToggle().getUserData().toString())) {
+                             vastus.setText("Õige");
+                            oigeVastusBox.getChildren().add(vastus);
+                        }
+                        else {
+                            vastus.setText("Vale, mõtle järele");
+                            oigeVastusBox.getChildren().add(vastus);
                         }
                     }
                 }
-            });
-            centerBox.getChildren().add(vastus);
+            }); centerBox.getChildren().add(oigeVastusBox);
         });
 
         //"Sorteeri!" nupp ACTION!
@@ -175,9 +169,15 @@ public class Java_fx extends Application {
                 sobivKonteiner = paberPapp.kuhuVisata(input);
             } else if (ohtlikud.kuhuVisata(input) != ""){
                 sobivKonteiner = ohtlikud.kuhuVisata(input);
-            }  else if (voimalikPrygiList.isEmpty()){
+            } else if (metallpakend.kuhuVisata(input) != ""){
+                sobivKonteiner = metallpakend.kuhuVisata(input);
+            } else if (klaaspakend.kuhuVisata(input) != ""){
+                sobivKonteiner = klaaspakend.kuhuVisata(input);
+            } else if (plastpakend.kuhuVisata(input) != ""){
+                sobivKonteiner = plastpakend.kuhuVisata(input);
+            } else if (voimalikPrygiList.isEmpty()){
                 sobivKonteiner = "Kahjuks ei leidnud hetkel sobivat konteinerit, vaata äkki leiad midagi sarnast pürgikonteineritele klikkides.";
-            }else{
+            }  else{
                 sobivKonteiner = "Prügi " +kasutajaInput.getText() + " ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  prindiArrayList(voimalikPrygiList).toString();
                 voimalikPrygiList.clear();
                 kasutajaInput.clear();
@@ -273,7 +273,9 @@ public class Java_fx extends Application {
         ArrayList<String> jaatmeList = new ArrayList<>();
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();
-            jaatmeList.add(rida);}
+            System.out.println(rida);
+            jaatmeList.add(rida);
+        }
         sc.close();
         return jaatmeList;
     }
@@ -285,6 +287,5 @@ public class Java_fx extends Application {
             sb.append("\n");
         }return sb;
     }
-
 
 }

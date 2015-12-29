@@ -28,6 +28,5 @@ public class Nipp {
             listNipid.add(rida);}
         sc.close();
         return listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valitakse nipp
-
     }
 }

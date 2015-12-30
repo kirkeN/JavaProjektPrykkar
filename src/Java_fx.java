@@ -1,8 +1,10 @@
+import com.lynden.gmapsfx.GoogleMapView;
+import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.object.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.geometry.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,31 +14,27 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-//import javafx.scene.control.Alert;
-
-import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
-
 import static javafx.geometry.Pos.*;
 
 /**
  * Created by Kirke on 24.11.2015.
  */
-public class Java_fx extends Application {
+public class Java_fx extends Application implements MapComponentInitializedListener {
     Nipp randomNipp;
     Scanner sc;
     public static List<String> voimalikPrygiList = new ArrayList<>(); //kasutaja poolt sisestatud prygiga sarnaste sonede list
     Button tagasiNupp = new Button("Tagasi");
     Stage primaryStage;
     Scene scene;
+    Stage mapStage;
+    GoogleMapView mapView;// = new GoogleMapView();
+    GoogleMap map; //= new GoogleMap();
 
-    Konteiner paberPapp = new Konteiner("Paber ja kartong"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
+    Konteiner paberPapp = new Konteiner("Paber ja papp"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
     Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
     Konteiner elektroonika = new Konteiner("Kodutehnika"); //loon uue Konteineri tyypi objekti, mille liik on vana elektroonika (k�lmkapid, arvutid, telekad)
     Konteiner ohtlikud = new Konteiner("Ohtlikud jäätmed"); //loon uue Konteineri tyypi objekti, mille liik on ohtlikud jäätmed (värvid, kodukeemia, akud) (NB! nende vastuvõtmine on piiratud koguseliselt)
@@ -48,6 +46,7 @@ public class Java_fx extends Application {
     public void start(Stage entryStage)throws Exception {
         primaryStage = entryStage;
         entryStage.setResizable(false);
+
         //layout:
         HBox konteineridHbox = new HBox(); //l2heb topVbox'i
         konteineridHbox.setSpacing(5);
@@ -59,14 +58,16 @@ public class Java_fx extends Application {
         leftVbox.setPadding(new Insets(10,0,0,0)); //top, right, bottom, left
         VBox centerBox = new VBox(); //l2heb borderPane'i keskele
         centerBox.setSpacing(3);
-        centerBox.setPadding(new Insets(10));
-        //VBox bottomBox = new VBox();
+        centerBox.setPadding(new Insets(15));
+        VBox bottomBox = new VBox();
+        bottomBox.setSpacing(5);
         BorderPane border = new BorderPane();
         border.setStyle("-fx-padding: 15");
         border.setLeft(leftVbox);
         border.setTop(topVbox);
         border.setCenter(centerBox);
-        //border.setBottom(bottomBox);
+        border.setBottom(bottomBox);
+
         scene = new Scene(border, 750, 500);
         entryStage.setScene(scene);
 
@@ -78,6 +79,7 @@ public class Java_fx extends Application {
         sorteeriNupp.setStyle("-fx-font: 12 helvetica");
         Button nipidNupp = new Button("Nipp");
         Button m2ng = new Button("MÄNGI");
+        Button kaardiNupp = new Button("Jäätmejaamade kaart");
 
         Label selgitusKonteineritele = new Label ("PRÜGIKONTEINERID");
         selgitusKonteineritele.setStyle("-fx-font: 12 helvetica;-fx-font-weight: bold");
@@ -95,10 +97,11 @@ public class Java_fx extends Application {
         pakendiBox.setTooltip(tipz);
 
         // panen visuaalid box'idesse
-        leftVbox.getChildren().addAll(kysimus, kasutajaInput, sorteeriNupp, nipidNupp);
+        leftVbox.getChildren().addAll(kysimus, kasutajaInput, sorteeriNupp);
         konteineridHbox.getChildren().addAll(pakendiBox,paberNupp, bioNupp, metallNupp, ohtlikNupp);
         topVbox.getChildren().addAll(selgitusKonteineritele, konteineridHbox);
         centerBox.getChildren().addAll(m2ng);
+        bottomBox.getChildren().addAll(nipidNupp,kaardiNupp);
 
         //eri liiki prygi listid l2hevad eri liiki konteineritesse
         paberPapp.setPrygi(jarjend(new File("paber.txt")));
@@ -207,7 +210,7 @@ public class Java_fx extends Application {
                                 break;
                                 }
                         });
-
+        // Konteinerinupud ACTION!
         nupuvajutus(bioNupp,bio,new Image("toidujaatmed.jpg")); //"Biolagunevad j22tmed" nupp ACTION!
         nupuvajutus(paberNupp, paberPapp, new Image("metalman.jpg")); //"Paber ja kartong" nupp ACTION!
         nupuvajutus(metallNupp, elektroonika, new Image("metalman.jpg"));  //"Vanametall" nupp ACTION!
@@ -231,6 +234,17 @@ public class Java_fx extends Application {
                 entryStage.setScene(scene);
             });
         });
+
+        kaardiNupp.setOnAction(event -> {
+            // Kaardiaken
+            mapView = new GoogleMapView();
+            mapView.addMapInializedListener(this);
+            Scene scene = new Scene(mapView);
+            mapStage = entryStage;
+            mapStage.setTitle("JavaFX and Google Maps");
+            mapStage.setScene(scene);
+            mapStage.show();
+                });
 
         entryStage.setTitle("Prykkar");
         entryStage.show();
@@ -288,4 +302,31 @@ public class Java_fx extends Application {
         }return sb;
     }
 
+    @Override
+    public void mapInitialized() {
+        //Set the initial properties of the map.
+        MapOptions mapOptions = new MapOptions();
+
+        mapOptions.center(new LatLong(59.45, 24.7))
+                .overviewMapControl(false)
+                .panControl(false)
+                .rotateControl(false)
+                .scaleControl(false)
+                .streetViewControl(false)
+                .zoomControl(false)
+                .zoom(12);
+
+        map = mapView.createMap(mapOptions);
+
+        //Add a marker to the map
+        MarkerOptions markerOptions = new MarkerOptions();
+
+        markerOptions.position( new LatLong(59.4628916666667, 24.7039027777778) )
+                .visible(Boolean.TRUE)
+                .title("Paljassaare");
+
+        Marker marker = new Marker( markerOptions );
+
+        map.addMarker(marker);
+    }
 }

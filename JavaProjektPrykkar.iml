@@ -9,5 +9,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sqlite-jdbc-3.8.11.2" level="project" />
+    <orderEntry type="library" name="GMapsFX" level="project" />
+    <orderEntry type="library" name="GMapsFX (2)" level="project" />
+    <orderEntry type="library" name="GMapsFX" level="project" />
   </component>
 </module>

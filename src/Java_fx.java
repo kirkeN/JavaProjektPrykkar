@@ -23,7 +23,7 @@ import static javafx.geometry.Pos.*;
 /**
  * Created by Kirke on 24.11.2015.
  */
-public class Java_fx extends Application implements MapComponentInitializedListener {
+public class Java_fx extends Application { //implements MapComponentInitializedListener
     Nipp randomNipp;
     Scanner sc;
     public static List<String> voimalikPrygiList = new ArrayList<>(); //kasutaja poolt sisestatud prygiga sarnaste sonede list
@@ -31,8 +31,8 @@ public class Java_fx extends Application implements MapComponentInitializedListe
     Stage primaryStage;
     Scene scene;
     Stage mapStage;
-    GoogleMapView mapView;// = new GoogleMapView();
-    GoogleMap map; //= new GoogleMap();
+    GoogleMapView mapView;
+    GoogleMap map;
 
     Konteiner paberPapp = new Konteiner("Paber ja papp"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
     Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
@@ -237,14 +237,14 @@ public class Java_fx extends Application implements MapComponentInitializedListe
 
         kaardiNupp.setOnAction(event -> {
             // Kaardiaken
-            mapView = new GoogleMapView();
-            mapView.addMapInializedListener(this);
-            Scene scene = new Scene(mapView);
             mapStage = entryStage;
-            mapStage.setTitle("JavaFX and Google Maps");
-            mapStage.setScene(scene);
-            mapStage.show();
-                });
+            Kaardiaken kaart = new Kaardiaken(map, mapView);
+            try {
+                kaart.start(mapStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         entryStage.setTitle("Prykkar");
         entryStage.show();
@@ -302,31 +302,4 @@ public class Java_fx extends Application implements MapComponentInitializedListe
         }return sb;
     }
 
-    @Override
-    public void mapInitialized() {
-        //Set the initial properties of the map.
-        MapOptions mapOptions = new MapOptions();
-
-        mapOptions.center(new LatLong(59.45, 24.7))
-                .overviewMapControl(false)
-                .panControl(false)
-                .rotateControl(false)
-                .scaleControl(false)
-                .streetViewControl(false)
-                .zoomControl(false)
-                .zoom(12);
-
-        map = mapView.createMap(mapOptions);
-
-        //Add a marker to the map
-        MarkerOptions markerOptions = new MarkerOptions();
-
-        markerOptions.position( new LatLong(59.4628916666667, 24.7039027777778) )
-                .visible(Boolean.TRUE)
-                .title("Paljassaare");
-
-        Marker marker = new Marker( markerOptions );
-
-        map.addMarker(marker);
-    }
 }

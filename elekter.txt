@@ -1,4 +1,5 @@
 ﻿televiisor
+televiisor
 pesumasin
 arvuti
 külmkapp

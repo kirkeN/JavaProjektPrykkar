@@ -1,3 +1,9 @@
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,4 +35,5 @@ public class Nipp {
         sc.close();
         return listNipid.get((int) (Math.random() * (listNipid.size()))); //randomiga valitakse nipp
     }
+
 }

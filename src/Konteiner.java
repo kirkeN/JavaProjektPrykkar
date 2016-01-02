@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +30,20 @@ public class Konteiner {
         this.prygi = prygi;
     }
 
+    //MEETOD "jarjend": loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
+    public  ArrayList<String> jarjend(File fail) throws Exception {
+        Scanner sc = new Scanner(fail);
+        ArrayList<String> jaatmeList = new ArrayList<>();
+        while (sc.hasNextLine()) {
+            String rida = sc.nextLine();
+            System.out.println(rida);
+            jaatmeList.add(rida);
+        }
+        jaatmeList.remove(0);
+        sc.close();
+        return jaatmeList;
+    }
+
     //MEETOD "prindiKonteinerList" prindib välja konteinerisse sobiva prygi
     public  StringBuilder prindiKonteineriList() {
         List<String> prygiList = this.getPrygi();
@@ -46,7 +61,7 @@ public class Konteiner {
             if (this.getPrygi().get(i).equals(kasutajaPrygi)) {//kontrollin, kas kasutaja prygi sobib antud konteinerisse; stringide puhul toimib meetod equals()!!! mitte ==
                 sobivKonteiner = this.getLiik();
             } else{
-                sarnanePrygiNimi(kasutajaPrygi, this.getPrygi().get(i)); //kui tapset vastet konteinerist ei leita, otsitakse sanraseid t2hekombinatsioone sisaldavaid vasteid; meetod meetodi sees
+                sarnanePrygiNimi(kasutajaPrygi, this.getPrygi().get(i)); //meetod meetodi sees: kui tapset vastet konteinerist ei leita, otsitakse sanraseid t2hekombinatsioone sisaldavaid vasteid;
             }
         } return sobivKonteiner;
     }
@@ -67,8 +82,8 @@ public class Konteiner {
         //kontrollin, kas kasutaja prügi sisaldab konteineri prygiga sarnaseid tahekombinatsioone
         for (int i = 0; i < tahekomplekt1.length; i++) {
             for (int j = 0; j <tahekomplekt2.length; j++) {
-                if(tahekomplekt1[i].equals(tahekomplekt2[j]) && ! Java_fx.voimalikPrygiList.contains(konteineriPrygi)){
-                    Java_fx.voimalikPrygiList.add(konteineriPrygi);
+                if(tahekomplekt1[i].equals(tahekomplekt2[j]) && ! Java_fx.voimalikPrygiList.getPrygi().contains(konteineriPrygi)){
+                    Java_fx.voimalikPrygiList.getPrygi().add(konteineriPrygi);
                 }
             }
         }
@@ -88,7 +103,6 @@ public class Konteiner {
             return false;
         }
     }
-
 
 }
 

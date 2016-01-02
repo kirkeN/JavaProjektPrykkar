@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.*;
@@ -25,12 +26,12 @@ import static javafx.geometry.Pos.*;
  */
 public class Java_fx extends Application { //implements MapComponentInitializedListener
     Nipp randomNipp;
-    Scanner sc;
-    public static List<String> voimalikPrygiList = new ArrayList<>(); //kasutaja poolt sisestatud prygiga sarnaste sonede list
+    static List<String> arrayList = new ArrayList<>();
+    public static Konteiner voimalikPrygiList = new Konteiner(arrayList); //kasutaja poolt sisestatud prygiga sarnaste sonede list
     Button tagasiNupp = new Button("Tagasi");
-    Stage primaryStage;
+    Stage primaryStage; //konteinerite stage
     Scene scene;
-    Stage mapStage;
+    Stage mapStage; //kaardiakna stage
     GoogleMapView mapView;
     GoogleMap map;
 
@@ -55,20 +56,25 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         topVbox.setSpacing(5);
         VBox leftVbox = new VBox(); //l2heb borderPane'i vasakule
         leftVbox.setSpacing(5);
-        leftVbox.setPadding(new Insets(10,0,0,0)); //top, right, bottom, left
+        leftVbox.setPadding(new Insets(15,0,0,0)); //top, right, bottom, left
         VBox centerBox = new VBox(); //l2heb borderPane'i keskele
-        centerBox.setSpacing(3);
-        centerBox.setPadding(new Insets(15));
+        centerBox.setSpacing(10);
+        centerBox.setPadding(new Insets(15,10,10,10));
         VBox bottomBox = new VBox();
         bottomBox.setSpacing(5);
+        VBox nipidLayout = new VBox(); //läheb bottomBoxi
+        VBox rightVbox = new VBox();
+        rightVbox.setSpacing(5);
+        rightVbox.setPadding(new Insets(15,0,0,10));
         BorderPane border = new BorderPane();
         border.setStyle("-fx-padding: 15");
         border.setLeft(leftVbox);
         border.setTop(topVbox);
         border.setCenter(centerBox);
         border.setBottom(bottomBox);
+        border.setRight(rightVbox);
 
-        scene = new Scene(border, 750, 500);
+        scene = new Scene(border, 750, 470);
         entryStage.setScene(scene);
 
         //Visuaalid
@@ -80,6 +86,12 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         Button nipidNupp = new Button("Nipp");
         Button m2ng = new Button("MÄNGI");
         Button kaardiNupp = new Button("Jäätmejaamade kaart");
+
+        Image manguPilt = new Image("reuse2.svg");
+        ImageView imv = new ImageView(); //pildivaade
+        imv.setImage(manguPilt);
+        VBox pictureRegion = new VBox();
+        pictureRegion.getChildren().add(imv);
 
         Label selgitusKonteineritele = new Label ("PRÜGIKONTEINERID");
         selgitusKonteineritele.setStyle("-fx-font: 12 helvetica;-fx-font-weight: bold");
@@ -100,17 +112,37 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         leftVbox.getChildren().addAll(kysimus, kasutajaInput, sorteeriNupp);
         konteineridHbox.getChildren().addAll(pakendiBox,paberNupp, bioNupp, metallNupp, ohtlikNupp);
         topVbox.getChildren().addAll(selgitusKonteineritele, konteineridHbox);
-        centerBox.getChildren().addAll(m2ng);
-        bottomBox.getChildren().addAll(nipidNupp,kaardiNupp);
+        centerBox.getChildren().addAll(m2ng, pictureRegion);
+        bottomBox.getChildren().addAll(nipidNupp, nipidLayout);
+        Label jaatmejaamadeVastuvottLabel1 = new Label ("Jäätmejaamades võetakse elanikelt tasuta vastu:");
+        jaatmejaamadeVastuvottLabel1.setStyle("-fx-font: 12 helvetica;-fx-font-weight: bold");
+        Label jaatmejaamadeVastuvottLabel2 = new Label ("* pakendeid " + "\n" +
+                "* plaste" + "\n" +
+                "* paberit ja pappi" + "\n" +
+                "* immutamata/töötlemata puitu" + "\n" +
+                "* betooni ja telliseid (va Rahumäe jäätmejaam, kus kehtib eraldi hinnakiri)" + "\n" +
+                "* vanametalli" + "\n" +
+                "* toiduõli" + "\n" +
+                "* kasutuskõlblikku vanamööblit" + "\n" +
+                "* sõiduauto rehve" + "\n" +
+                "* elektri- ja elektroonikajäätmeid" + "\n" +
+                "* klaasi" + "\n" +
+                "* kasutatud riideid" + "\n" +
+                "* biolagunevaid aia- ja haljastusjäätmeid" + "\n" +
+                "* koduseid ohtlikke jäätmeid" + "\n");
+        jaatmejaamadeVastuvottLabel2.setMaxWidth(250);
+        jaatmejaamadeVastuvottLabel2.setWrapText(true);
+        rightVbox.getChildren().addAll(jaatmejaamadeVastuvottLabel1, jaatmejaamadeVastuvottLabel2, kaardiNupp);
+
 
         //eri liiki prygi listid l2hevad eri liiki konteineritesse
-        paberPapp.setPrygi(jarjend(new File("paber.txt")));
-        bio.setPrygi(jarjend(new File("bio.txt")));
-        elektroonika.setPrygi(jarjend(new File("elekter.txt")));
-        metallpakend.setPrygi(jarjend(new File("metallpakend.txt")));
-        klaaspakend.setPrygi(jarjend(new File("klaaspakend.txt")));
-        plastpakend.setPrygi(jarjend(new File("plastpakend.txt")));
-        ohtlikud.setPrygi(jarjend(new File("ohtlik.txt")));
+        paberPapp.setPrygi(paberPapp.jarjend(new File("paber.txt")));
+        bio.setPrygi(bio.jarjend(new File("bio.txt")));
+        elektroonika.setPrygi(elektroonika.jarjend(new File("elekter.txt")));
+        metallpakend.setPrygi(metallpakend.jarjend(new File("metallpakend.txt")));
+        klaaspakend.setPrygi(klaaspakend.jarjend(new File("klaaspakend.txt")));
+        plastpakend.setPrygi(plastpakend.jarjend(new File("plastpakend.txt")));
+        ohtlikud.setPrygi(ohtlikud.jarjend(new File("ohtlik.txt")));
 
         //Nupp "Mängi" Action
         m2ng.setOnAction(event -> {
@@ -119,6 +151,7 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
             Konteiner[] juhuslikKonteiner = {konteineriteList[(int) (Math.random() * 6)]};
             String juhuslikPrygi = juhuslikKonteiner[0].randomPrygi(); //tahan otsida juhuslikust konteinerist juhuslikku prygi
             Label kuhuViskaksid = new Label("Kuhu viskaksid sellise prügi nagu: " + juhuslikPrygi);
+            kuhuViskaksid.setWrapText(true);
             ToggleGroup m2nguValikud = new ToggleGroup();
             RadioButton paber = new RadioButton(paberPapp.getLiik());
             RadioButton bioj22de = new RadioButton(bio.getLiik());
@@ -151,6 +184,7 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
                             vastus.setText("Vale, mõtle järele");
                             oigeVastusBox.getChildren().add(vastus);
                         }
+                        vastus.setStyle("-fx-font: 12 helvetica;-fx-font-weight: bold");
                     }
                 }
             }); centerBox.getChildren().add(oigeVastusBox);
@@ -178,15 +212,15 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
                 sobivKonteiner = klaaspakend.kuhuVisata(input);
             } else if (plastpakend.kuhuVisata(input) != ""){
                 sobivKonteiner = plastpakend.kuhuVisata(input);
-            } else if (voimalikPrygiList.isEmpty()){
+            } else if (voimalikPrygiList.getPrygi().isEmpty()){
                 sobivKonteiner = "Kahjuks ei leidnud hetkel sobivat konteinerit, vaata äkki leiad midagi sarnast pürgikonteineritele klikkides.";
             }  else{
-                sobivKonteiner = "Prügi " +kasutajaInput.getText() + " ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  prindiArrayList(voimalikPrygiList).toString();
-                voimalikPrygiList.clear();
-                kasutajaInput.clear();
+                sobivKonteiner = "Prügi " +kasutajaInput.getText() + " ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  voimalikPrygiList.prindiKonteineriList();
+                voimalikPrygiList.getPrygi().clear();
             }
+            kasutajaInput.clear();
             Label sobivKonteinerLabel = new Label(sobivKonteiner);
-            sobivKonteinerLabel.setMaxWidth(200);
+            sobivKonteinerLabel.setMaxWidth(180);
             sobivKonteinerLabel.setWrapText(true);
             sobivKonteinerLayout.getChildren().add(sobivKonteinerLabel);
         });
@@ -218,21 +252,16 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
 
         //"Nipid" nupp ACTION!
         nipidNupp.setOnAction(event -> {
+            nipidLayout.getChildren().clear();
             try {
                 randomNipp = new Nipp("uus nipp");
                 randomNipp.setNipp(randomNipp.nippideJarjend());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            VBox nipidLayout = new VBox();
-            Scene nipidScene = new Scene (nipidLayout, 500, 200);
             Label nipp = new Label(randomNipp.getNipp());
             nipp.setWrapText(true);
-                nipidLayout.getChildren().addAll(nipp, tagasiNupp);
-                entryStage.setScene(nipidScene);
-            tagasiNupp.setOnAction(event2 -> {
-                entryStage.setScene(scene);
-            });
+            nipidLayout.getChildren().add(nipp);
         });
 
         kaardiNupp.setOnAction(event -> {
@@ -244,6 +273,7 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         });
 
         entryStage.setTitle("Prykkar");
@@ -271,35 +301,15 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         });
     }
     //ChoiceBoxi (pakendikonteinerid) ACTION meetod
-    public void choiceBoxiValik (PakendiKonteiner pakend) {
+    public void choiceBoxiValik (PakendiKonteiner pakendikonteiner) {
         VBox choiceLayout = new VBox();
         Scene choiceScene = new Scene(choiceLayout, 300, 600);
-        Label choiceLabel = new Label(pakend.prindiKonteineriList().toString());
+        Label choiceLabel = new Label(pakendikonteiner.prindiKonteineriList().toString());
         choiceLayout.getChildren().addAll(choiceLabel, tagasiNupp);
         primaryStage.setScene(choiceScene);
         tagasiNupp.setOnAction(event2 -> {
             primaryStage.setScene(scene);
         });
-    }
-    //MEETOD "jarjend": loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
-   public  ArrayList<String> jarjend(File fail) throws Exception {
-        sc = new Scanner(fail);
-        ArrayList<String> jaatmeList = new ArrayList<>();
-        while (sc.hasNextLine()) {
-            String rida = sc.nextLine();
-            System.out.println(rida);
-            jaatmeList.add(rida);
-        }
-        sc.close();
-        return jaatmeList;
-    }
-    //MEETOD "prindiArrayList": prindib välja arraylisti sisu
-    public  StringBuilder prindiArrayList(List<String> massiiv) {
-        StringBuilder sb = new StringBuilder();
-        for (String s : massiiv) {
-            sb.append(s);
-            sb.append("\n");
-        }return sb;
     }
 
 }

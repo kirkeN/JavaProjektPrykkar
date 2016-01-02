@@ -16,7 +16,6 @@ public class Kaardiaken extends Application implements MapComponentInitializedLi
     GoogleMapView mapView;
     GoogleMap map;
 
-
     Kaardiaken (GoogleMap map, GoogleMapView mapView){
         this.map = map;
         this.mapView = mapView;
@@ -73,7 +72,6 @@ public class Kaardiaken extends Application implements MapComponentInitializedLi
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(xy)
                 .visible(Boolean.TRUE);
-                //.title("Paljassaare põik 9a");
 
         Marker marker = new Marker(markerOptions);
         map.addMarker(marker);
@@ -85,5 +83,8 @@ public class Kaardiaken extends Application implements MapComponentInitializedLi
 
         InfoWindow window = new InfoWindow(infoOptions);
         window.open(map, marker);
+    }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

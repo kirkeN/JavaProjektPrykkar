@@ -74,7 +74,7 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         border.setBottom(bottomBox);
         border.setRight(rightVbox);
 
-        scene = new Scene(border, 750, 470);
+        scene = new Scene(border, 760, 470);
         entryStage.setScene(scene);
 
         //Visuaalid
@@ -90,8 +90,10 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         Image manguPilt = new Image("reuse2.svg");
         ImageView imv = new ImageView(); //pildivaade
         imv.setImage(manguPilt);
-        VBox pictureRegion = new VBox();
+        Pane pictureRegion = new Pane();
         pictureRegion.getChildren().add(imv);
+        imv.setTranslateX(30);
+        imv.setTranslateY(30);
 
         Label selgitusKonteineritele = new Label ("PRÜGIKONTEINERID");
         selgitusKonteineritele.setStyle("-fx-font: 12 helvetica;-fx-font-weight: bold");
@@ -193,6 +195,7 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         //"Sorteeri!" nupp ACTION!
         Pane sobivKonteinerLayout = new Pane();
         sorteeriNupp.setOnAction(event -> {
+            voimalikPrygiList.getPrygi().clear();
             sobivKonteinerLayout.getChildren().clear();
             String input = kasutajaInput.getText().toLowerCase();
             String sobivKonteiner = "";
@@ -216,7 +219,6 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
                 sobivKonteiner = "Kahjuks ei leidnud hetkel sobivat konteinerit, vaata äkki leiad midagi sarnast pürgikonteineritele klikkides.";
             }  else{
                 sobivKonteiner = "Prügi " +kasutajaInput.getText() + " ei leitud, äkki mõtlesid hoopis midagi neist : " + "\n" +  voimalikPrygiList.prindiKonteineriList();
-                voimalikPrygiList.getPrygi().clear();
             }
             kasutajaInput.clear();
             Label sobivKonteinerLabel = new Label(sobivKonteiner);
@@ -266,14 +268,13 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
 
         kaardiNupp.setOnAction(event -> {
             // Kaardiaken
-            mapStage = entryStage;
+            mapStage = new Stage();
             Kaardiaken kaart = new Kaardiaken(map, mapView);
             try {
                 kaart.start(mapStage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         });
 
         entryStage.setTitle("Prykkar");

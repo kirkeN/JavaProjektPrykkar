@@ -36,7 +36,7 @@ public class Konteiner {
         ArrayList<String> jaatmeList = new ArrayList<>();
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();
-            System.out.println(rida);
+            //System.out.println(rida);
             jaatmeList.add(rida);
         }
         jaatmeList.remove(0);

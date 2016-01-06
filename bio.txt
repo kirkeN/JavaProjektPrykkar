@@ -5,6 +5,8 @@ kompott
 potimuld
 toidujäätmed
 taimed
+toataimed
+kanamuna koored
 lõikelilled
 majapidamispaber
 pabersalvrätt

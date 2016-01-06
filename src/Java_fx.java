@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.io.File;
@@ -28,12 +29,14 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
     Nipp randomNipp;
     static List<String> arrayList = new ArrayList<>();
     public static Konteiner voimalikPrygiList = new Konteiner(arrayList); //kasutaja poolt sisestatud prygiga sarnaste sonede list
-    Button tagasiNupp = new Button("Tagasi");
     Stage primaryStage; //konteinerite stage
     Scene scene;
     Stage mapStage; //kaardiakna stage
+    Stage konteinerStage;
     GoogleMapView mapView;
     GoogleMap map;
+    static VBox centerBox;
+    static Button m2ng;
 
     Konteiner paberPapp = new Konteiner("Paber ja papp"); //loon uue Konteiner tyypi objekti, mille liik on paber ja papp
     Konteiner bio = new Konteiner("Biolagunevad jäätmed");   //loon uue Konteiner tyypi objekti, mille liik on biol. j22tmed
@@ -57,7 +60,7 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         VBox leftVbox = new VBox(); //l2heb borderPane'i vasakule
         leftVbox.setSpacing(5);
         leftVbox.setPadding(new Insets(15,0,0,0)); //top, right, bottom, left
-        VBox centerBox = new VBox(); //l2heb borderPane'i keskele
+        centerBox = new VBox(); //l2heb borderPane'i keskele
         centerBox.setSpacing(10);
         centerBox.setPadding(new Insets(15,10,10,10));
         VBox bottomBox = new VBox();
@@ -69,12 +72,14 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         BorderPane border = new BorderPane();
         border.setStyle("-fx-padding: 15");
         border.setLeft(leftVbox);
+        leftVbox.setPrefWidth(180);
         border.setTop(topVbox);
         border.setCenter(centerBox);
         border.setBottom(bottomBox);
+        bottomBox.setPrefHeight(80);
         border.setRight(rightVbox);
 
-        scene = new Scene(border, 760, 470);
+        scene = new Scene(border, 760, 480);
         entryStage.setScene(scene);
 
         //Visuaalid
@@ -84,7 +89,7 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         Button sorteeriNupp = new Button("Sorteeri");
         sorteeriNupp.setStyle("-fx-font: 12 helvetica");
         Button nipidNupp = new Button("Nipp");
-        Button m2ng = new Button("MÄNGI");
+        m2ng = new Button("MÄNGI");
         Button kaardiNupp = new Button("Jäätmejaamade kaart");
 
         Image manguPilt = new Image("reuse2.svg");
@@ -146,52 +151,6 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         plastpakend.setPrygi(plastpakend.jarjend(new File("plastpakend.txt")));
         ohtlikud.setPrygi(ohtlikud.jarjend(new File("ohtlik.txt")));
 
-        //Nupp "Mängi" Action
-        m2ng.setOnAction(event -> {
-            centerBox.getChildren().clear();
-            Konteiner[] konteineriteList = {paberPapp, bio, elektroonika, klaaspakend, plastpakend, ohtlikud}; //teen j2rjendi k6ikide konteinerite (ja nende sisu) kohta
-            Konteiner[] juhuslikKonteiner = {konteineriteList[(int) (Math.random() * 6)]};
-            String juhuslikPrygi = juhuslikKonteiner[0].randomPrygi(); //tahan otsida juhuslikust konteinerist juhuslikku prygi
-            Label kuhuViskaksid = new Label("Kuhu viskaksid sellise prügi nagu: " + juhuslikPrygi);
-            kuhuViskaksid.setWrapText(true);
-            ToggleGroup m2nguValikud = new ToggleGroup();
-            RadioButton paber = new RadioButton(paberPapp.getLiik());
-            RadioButton bioj22de = new RadioButton(bio.getLiik());
-            RadioButton pakend = new RadioButton(klaaspakend.getLiik());
-            RadioButton elektro = new RadioButton(elektroonika.getLiik());
-            RadioButton oht = new RadioButton(ohtlikud.getLiik());
-            paber.setToggleGroup(m2nguValikud);
-            paber.setUserData(paberPapp.getLiik());
-            bioj22de.setToggleGroup(m2nguValikud);
-            bioj22de.setUserData(bio.getLiik());
-            pakend.setToggleGroup(m2nguValikud);
-            pakend.setUserData(klaaspakend.getLiik());
-            elektro.setToggleGroup(m2nguValikud);
-            elektro.setUserData(elektroonika.getLiik());
-            oht.setToggleGroup(m2nguValikud);
-            oht.setUserData(ohtlikud.getLiik());
-            centerBox.getChildren().addAll(m2ng,kuhuViskaksid,paber,bioj22de,pakend,elektro,oht);
-            VBox oigeVastusBox = new VBox(); // layout 6igele vastusele, mis l2heb centerBoxi
-            m2nguValikud.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-                public void changed(ObservableValue<? extends Toggle> ov,
-                                    Toggle old_toggle, Toggle new_toggle) {
-                    oigeVastusBox.getChildren().clear(); //iga kord, kui kasutaja vahetab radiobuttonit, kirjutatakse 6ige vastus yle
-                    Label vastus = new Label();
-                    if (m2nguValikud.getSelectedToggle() != null) {
-                        if (juhuslikKonteiner[0].kasKasutajaArvasAra(m2nguValikud.getSelectedToggle().getUserData().toString())) {
-                             vastus.setText("Õige");
-                            oigeVastusBox.getChildren().add(vastus);
-                        }
-                        else {
-                            vastus.setText("Vale, mõtle järele");
-                            oigeVastusBox.getChildren().add(vastus);
-                        }
-                        vastus.setStyle("-fx-font: 12 helvetica;-fx-font-weight: bold");
-                    }
-                }
-            }); centerBox.getChildren().add(oigeVastusBox);
-        });
-
         //"Sorteeri!" nupp ACTION!
         Pane sobivKonteinerLayout = new Pane();
         sorteeriNupp.setOnAction(event -> {
@@ -252,6 +211,10 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
         nupuvajutus(metallNupp, elektroonika, new Image("metalman.jpg"));  //"Vanametall" nupp ACTION!
         nupuvajutus(ohtlikNupp, ohtlikud, new Image("metalman.jpg"));  //"Vanametall" nupp ACTION!
 
+        m2ng.setOnAction(event -> { //"Mängi" nupp ACTION!
+                    m2ngi();
+                });
+
         //"Nipid" nupp ACTION!
         nipidNupp.setOnAction(event -> {
             nipidLayout.getChildren().clear();
@@ -287,30 +250,76 @@ public class Java_fx extends Application { //implements MapComponentInitializedL
     public void nupuvajutus (Nupp nupp, Konteiner konteiner, Image pilt ) {
         nupp.setOnMouseClicked(event -> {
             VBox konteinerLayout = new VBox();
-            konteinerLayout.setPadding(new Insets(10));
-            Scene konteinerScene = new Scene(konteinerLayout, 300, 600);
+            konteinerLayout.setSpacing(5);
+            konteinerLayout.setPadding(new Insets(5,15,10,15));
             Label konteinerLabel = new Label(konteiner.prindiKonteineriList().toString());
             ImageView imv = new ImageView(); //pildivaade
             imv.setImage(pilt);
-            VBox pictureRegion = new VBox();
+            Pane pictureRegion = new Pane();
             pictureRegion.getChildren().add(imv);
-            konteinerLayout.getChildren().addAll(konteinerLabel, pictureRegion, tagasiNupp);
-            primaryStage.setScene(konteinerScene);
-            tagasiNupp.setOnAction(event2 -> {
-                primaryStage.setScene(scene);
-            });
+            konteinerLayout.getChildren().addAll(konteinerLabel, pictureRegion);
+            Scene konteinerScene = new Scene(konteinerLayout, konteinerLayout.getPrefWidth(), konteinerLayout.getPrefHeight());
+            konteinerStage= new Stage();
+            konteinerStage.setScene(konteinerScene);
+            konteinerStage.show();
         });
     }
     //ChoiceBoxi (pakendikonteinerid) ACTION meetod
     public void choiceBoxiValik (PakendiKonteiner pakendikonteiner) {
         VBox choiceLayout = new VBox();
-        Scene choiceScene = new Scene(choiceLayout, 300, 600);
+        choiceLayout.setSpacing(5);
+        choiceLayout.setPadding(new Insets(5,15,10,15));
         Label choiceLabel = new Label(pakendikonteiner.prindiKonteineriList().toString());
-        choiceLayout.getChildren().addAll(choiceLabel, tagasiNupp);
-        primaryStage.setScene(choiceScene);
-        tagasiNupp.setOnAction(event2 -> {
-            primaryStage.setScene(scene);
-        });
+        choiceLayout.getChildren().addAll(choiceLabel);
+        Scene choiceScene = new Scene(choiceLayout, choiceLayout.getPrefWidth(),choiceLayout.getPrefWidth());
+        konteinerStage = new Stage();
+        konteinerStage.setScene(choiceScene);
+        konteinerStage.show();
     }
-
+    //Nupp "Mängi" Action
+     public void m2ngi() {
+            centerBox.getChildren().clear();
+            Konteiner[] konteineriteList = {paberPapp, bio, elektroonika, klaaspakend, plastpakend, ohtlikud}; //teen j2rjendi k6ikide konteinerite (ja nende sisu) kohta
+            Konteiner[] juhuslikKonteiner = {konteineriteList[(int) (Math.random() * 6)]};
+            String juhuslikPrygi = juhuslikKonteiner[0].randomPrygi(); //tahan otsida juhuslikust konteinerist juhuslikku prygi
+            Label kuhuViskaksid = new Label("Kuhu viskaksid sellise prügi nagu: " + juhuslikPrygi);
+            kuhuViskaksid.setWrapText(true);
+            ToggleGroup m2nguValikud = new ToggleGroup();
+            RadioButton paber = new RadioButton(paberPapp.getLiik());
+            RadioButton bioj22de = new RadioButton(bio.getLiik());
+            RadioButton pakend = new RadioButton(klaaspakend.getLiik());
+            RadioButton elektro = new RadioButton(elektroonika.getLiik());
+            RadioButton oht = new RadioButton(ohtlikud.getLiik());
+            paber.setToggleGroup(m2nguValikud);
+            paber.setUserData(paberPapp.getLiik());
+            bioj22de.setToggleGroup(m2nguValikud);
+            bioj22de.setUserData(bio.getLiik());
+            pakend.setToggleGroup(m2nguValikud);
+            pakend.setUserData(klaaspakend.getLiik());
+            elektro.setToggleGroup(m2nguValikud);
+            elektro.setUserData(elektroonika.getLiik());
+            oht.setToggleGroup(m2nguValikud);
+            oht.setUserData(ohtlikud.getLiik());
+            centerBox.getChildren().addAll(m2ng, kuhuViskaksid, paber, bioj22de, pakend, elektro, oht);
+            VBox oigeVastusBox = new VBox(); // layout 6igele vastusele, mis l2heb centerBoxi
+            m2nguValikud.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+                public void changed(ObservableValue<? extends Toggle> ov,
+                                    Toggle old_toggle, Toggle new_toggle) {
+                    oigeVastusBox.getChildren().clear(); //iga kord, kui kasutaja vahetab radiobuttonit, kirjutatakse 6ige vastus yle
+                    Label vastus = new Label();
+                    if (m2nguValikud.getSelectedToggle() != null) {
+                        if (juhuslikKonteiner[0].kasKasutajaArvasAra(m2nguValikud.getSelectedToggle().getUserData().toString())) {
+                            vastus.setText("Õige");
+                            oigeVastusBox.getChildren().add(vastus);
+                           // m2ngi();
+                        } else {
+                            vastus.setText("Vale, mõtle järele");
+                            oigeVastusBox.getChildren().add(vastus);
+                        }
+                        vastus.setStyle("-fx-font: 12 helvetica;-fx-font-weight: bold");
+                    }
+                }
+            });
+            centerBox.getChildren().add(oigeVastusBox);
+    }
 }

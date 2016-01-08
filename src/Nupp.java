@@ -3,7 +3,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 
 /**
- * Created by Kirke on 22.12.2015.
+ Nupu klass sarnaste nuppude loomiseks
  */
 public class Nupp extends Button{
     //nupu konstruktor nime, vihje ja värvi jaoks

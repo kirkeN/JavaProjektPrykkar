@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by kasutaja on 14.10.2015.
+ Prügikonteinerite klass: igal konteineril on liik (nt "ohtlikud jäätmed" või "paber ja papp") ja prügi nimekiri, mis sinna konteinerisse sobib.
+ Lisaks meetodid prügi nimekirja failist lugemiseks ja kuvamiseks, kontrollimiseks, kas kasutaja poolt sisestatud prügi sobib sellesse konteinerisse või
+ on konteineris sarnase nimega prügi, mida kasutaja võis mõelda.
+ Lisaks meetodid Prykkari äraarvamise mängu tarvis.
  */
 public class Konteiner {
     public String liik; //konteineri liik
@@ -36,7 +39,6 @@ public class Konteiner {
         ArrayList<String> jaatmeList = new ArrayList<>();
         while (sc.hasNextLine()) {
             String rida = sc.nextLine();
-            //System.out.println(rida);
             jaatmeList.add(rida);
         }
         jaatmeList.remove(0);
@@ -69,7 +71,7 @@ public class Konteiner {
     public void sarnanePrygiNimi (String kasutajaPrygi, String konteineriPrygi) {
         char[] kasutajaPrygiChars = kasutajaPrygi.toCharArray();
         char[] konteineriPrygiChars = konteineriPrygi.toCharArray();
-        String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-3];  //kontrollin kattuvusi 3-tahelistes kombinatsioonides, selleks teen massiivid
+        String[] tahekomplekt1 = new String[kasutajaPrygiChars.length-3];  //kontrollin kattuvusi 4-tahelistes kombinatsioonides, selleks teen massiivid
         String[] tahekomplekt2 = new String[konteineriPrygiChars.length-3];
         //kasutaja prygist tehakse massiiv, kus on 4-tähelised kombinatsioonid sõnast, nt "piimapakk": ["piim"; "iima"; "imap"; "mapa"; "apak"; "pakk"]
         for (int i = 0;  tahekomplekt1.length > i ; i++) {
@@ -89,14 +91,14 @@ public class Konteiner {
         }
     }
     //MEETODID 2raarvamism2ngu tarvis
-    public String randomPrygi () {
+    public String randomPrygi () { //otsitakse suvaline prügi konteinerist, et kasutaja arvaks ära, kuhu see käib
         String arvaPrygi="";
         for (int i = 0; i < prygi.size(); i++) {
             arvaPrygi = prygi.get((int) (Math.random() * (prygi.size())));
         }
         return arvaPrygi;
     }
-    public boolean kasKasutajaArvasAra (String kasutajaVastus) {
+    public boolean kasKasutajaArvasAra (String kasutajaVastus) { //kontrollitakse, kas kasutaja arvas konteineri liigi õigesti ära või mitte
         if (kasutajaVastus.equals(this.getLiik())) {
             return true;
         }else{

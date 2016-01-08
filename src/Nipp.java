@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by Kirke on 15.12.2015.
+Nippide klass. Iga nipp koosneb String tüüpi nõuandest, mida kuvatakse nupuvajutusel juhuslikult.
  */
 public class Nipp {
     public String nipp;  //nipp - n6uanne, mis aitab vähem prygi tekitada, keskkonnas6bralikum olla.

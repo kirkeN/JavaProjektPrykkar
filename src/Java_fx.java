@@ -1,5 +1,4 @@
 import com.lynden.gmapsfx.GoogleMapView;
-import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -14,8 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.*;
@@ -23,9 +20,9 @@ import java.util.List;
 import static javafx.geometry.Pos.*;
 
 /**
- * Created by Kirke on 24.11.2015.
+ * ITK Java kursuse i200 iseseisev projekt. Autor Kirke Narusk, sügis 2015.
  */
-public class Java_fx extends Application { //implements MapComponentInitializedListener
+public class Java_fx extends Application {
     Nipp randomNipp;
     static List<String> arrayList = new ArrayList<>();
     public static Konteiner voimalikPrygiList = new Konteiner(arrayList); //kasutaja poolt sisestatud prygiga sarnaste sonede list

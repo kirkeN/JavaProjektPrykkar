@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 
 /**
- * Created by Kirke on 30.12.2015.
+ Google Map kaardiakna klass, kus kuvatakse markerite abil jäätmejaamade asukohad koos lisainfoga.
  */
 public class Kaardiaken extends Application implements MapComponentInitializedListener {
 

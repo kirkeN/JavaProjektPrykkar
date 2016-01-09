@@ -12,6 +12,7 @@ public String alamliik;
     String getAlamliik() {
         return alamliik;
     }
+
     //kirjutan konteineri meetodi yle, et tagastataks pakendikonteineri liik (konteineri alamliik)
     public String kuhuVisata(String kasutajaPrygi) {
         String sobivKonteiner = "";

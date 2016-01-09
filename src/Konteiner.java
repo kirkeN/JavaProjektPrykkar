@@ -31,6 +31,7 @@ public class Konteiner {
     }
     void setPrygi(List<String> prygi){
         this.prygi = prygi;
+
     }
 
     //MEETOD "jarjend": loeb failist prügi ja viskab selle arraylisti, mille ka tagastab
@@ -84,8 +85,8 @@ public class Konteiner {
         //kontrollin, kas kasutaja prügi sisaldab konteineri prygiga sarnaseid tahekombinatsioone
         for (int i = 0; i < tahekomplekt1.length; i++) {
             for (int j = 0; j <tahekomplekt2.length; j++) {
-                if(tahekomplekt1[i].equals(tahekomplekt2[j]) && ! Java_fx.voimalikPrygiList.getPrygi().contains(konteineriPrygi)){
-                    Java_fx.voimalikPrygiList.getPrygi().add(konteineriPrygi);
+                if(tahekomplekt1[i].equals(tahekomplekt2[j]) && ! LeftView.voimalikPrygiList.getPrygi().contains(konteineriPrygi)){
+                    LeftView.voimalikPrygiList.getPrygi().add(konteineriPrygi);
                 }
             }
         }

@@ -5,27 +5,21 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-
 /**
  Google Map kaardiakna klass, kus kuvatakse markerite abil jäätmejaamade asukohad koos lisainfoga.
  */
 public class Kaardiaken extends Application implements MapComponentInitializedListener {
-
     GoogleMapView mapView;
     GoogleMap map;
 
     Kaardiaken (GoogleMap map, GoogleMapView mapView){
         this.map = map;
         this.mapView = mapView;
-
     }
     // järgnev kood: copyright Rob Terpilowski, https://rterp.wordpress.com/2014/04/25/gmapsfx-add-google-maps-to-your-javafx-application/
     // v.a. meetodid, mille tuletasin ise ja kohandasin programmi vajadustele vastavaks
     @Override
     public void start(Stage stage) throws Exception {
-        //Create the JavaFX component and set this as a listener so we know when
-        //the map has been initialized, at which point we can then begin manipulating it.
         mapView = new GoogleMapView();
         mapView.addMapInializedListener(this);
 
@@ -34,11 +28,8 @@ public class Kaardiaken extends Application implements MapComponentInitializedLi
         stage.setTitle("Tallinna jäätmejaamad");
         stage.setScene(scene);
         stage.show();
-
     }
-
     @Override
-
     public void mapInitialized() {
         //kaardi omadused
         MapOptions mapOptions = new MapOptions();
@@ -83,7 +74,7 @@ public class Kaardiaken extends Application implements MapComponentInitializedLi
         InfoWindow window = new InfoWindow(infoOptions);
         window.open(map, marker);
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         launch(args);
-    }
+    }*/
 }

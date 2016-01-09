@@ -23,15 +23,11 @@ public class Konteiner {
     String getLiik() {
         return liik;
     }
-    void setLiik(String liik){
-        this.liik = liik;
-    }
     List<String> getPrygi() {
         return prygi;
     }
     void setPrygi(List<String> prygi){
         this.prygi = prygi;
-
     }
 
     //MEETOD "jarjend": loeb failist prügi ja viskab selle arraylisti, mille ka tagastab

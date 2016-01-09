@@ -74,7 +74,4 @@ public class Kaardiaken extends Application implements MapComponentInitializedLi
         InfoWindow window = new InfoWindow(infoOptions);
         window.open(map, marker);
     }
-    /*public static void main(String[] args) {
-        launch(args);
-    }*/
 }

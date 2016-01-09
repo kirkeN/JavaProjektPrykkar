@@ -1,5 +1,5 @@
 /**
- * Created by Kirke on 12.12.2015.
+ *
  */
 public class PakendiKonteiner extends Konteiner{
 

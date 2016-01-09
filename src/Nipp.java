@@ -18,7 +18,7 @@ public class Nipp {
         this.nipp = nipp;
     }
 
-    // nippide lugemine failist ja yhe v22rt nipi tagastamine :)
+    // nippide lugemine failist ja yhe juhusliku v22rt nipi tagastamine :)
     public String nippideJarjend () throws Exception {
         File nippideFail = new File("nipid.txt"); // txt failid peavad olema proj. samas kaustas antud juhul
         Scanner sc = new Scanner(nippideFail);

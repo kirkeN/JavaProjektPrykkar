@@ -48,9 +48,9 @@ public class TopView {
 
         // Konteinerinupud ACTION!
         nupuvajutus(bioNupp,bio,new Image("toidujaatmed.jpg")); //"Biolagunevad j22tmed" nupp ACTION!
-        nupuvajutus(paberNupp, paberPapp, new Image("metalman.jpg")); //"Paber ja kartong" nupp ACTION!
+        nupuvajutus(paberNupp, paberPapp, new Image("paberpapp.jpg")); //"Paber ja kartong" nupp ACTION!
         nupuvajutus(metallNupp, elektroonika, new Image("metalman.jpg"));  //"Vanametall" nupp ACTION!
-        nupuvajutus(ohtlikNupp, ohtlikud, new Image("metalman.jpg"));  //"Vanametall" nupp ACTION!
+        nupuvajutus(ohtlikNupp, ohtlikud, new Image("ohtlikud.jpg"));  //"Vanametall" nupp ACTION!
 
         ChoiceBox pakendiBox = new ChoiceBox (FXCollections.observableArrayList("PAKENDID", "Metallpakend", "Klaaspakend", "Plastpakend"));
         pakendiBox.setMinWidth(140);
@@ -68,13 +68,13 @@ public class TopView {
                             String pakendiValue = pakendiBox.getValue().toString();
                             switch (pakendiValue) {
                                 case "Klaaspakend":
-                                    choiceBoxiValik(klaaspakend);
+                                    choiceBoxiValik(klaaspakend, new Image("klaas.jpg"));
                                     break;
                                 case "Metallpakend":
-                                    choiceBoxiValik(metallpakend);
+                                    choiceBoxiValik(metallpakend, new Image("metall.jpg"));
                                     break;
                                 case "Plastpakend":
-                                    choiceBoxiValik(plastpakend);
+                                    choiceBoxiValik(plastpakend, new Image("plast.jpg"));
                                     break;
                             }
                         });
@@ -99,7 +99,7 @@ public class TopView {
         nupp.setOnMouseClicked(event -> {
             VBox konteinerLayout = new VBox();
             konteinerLayout.setSpacing(5);
-            konteinerLayout.setPadding(new Insets(5,15,10,15));
+            konteinerLayout.setPadding(new Insets(10,15,15,15));
             Label konteinerLabel = new Label(konteiner.prindiKonteineriList().toString());
             ImageView imv = new ImageView(); //pildivaade
             imv.setImage(pilt);
@@ -113,13 +113,17 @@ public class TopView {
             konteinerStage.show();
         });
     }
-
-    public static void choiceBoxiValik(PakendiKonteiner pakendikonteiner) {     //ChoiceBoxi (pakendikonteinerid) ACTION meetod
+    //ChoiceBoxi (pakendikonteinerid) ACTION meetod
+    public static void choiceBoxiValik(PakendiKonteiner pakendikonteiner, Image pilt) {
         VBox choiceLayout = new VBox();
         choiceLayout.setSpacing(5);
-        choiceLayout.setPadding(new Insets(5,15,10,15));
+        choiceLayout.setPadding(new Insets(10,15,15,15));
         Label choiceLabel = new Label(pakendikonteiner.prindiKonteineriList().toString());
-        choiceLayout.getChildren().addAll(choiceLabel);
+        ImageView imv = new ImageView(); //pildivaade
+        imv.setImage(pilt);
+        Pane pictureRegion = new Pane();
+        pictureRegion.getChildren().add(imv);
+        choiceLayout.getChildren().addAll(choiceLabel, pictureRegion);
         Scene choiceScene = new Scene(choiceLayout, choiceLayout.getPrefWidth(),choiceLayout.getPrefWidth());
 
         konteinerStage = new Stage();

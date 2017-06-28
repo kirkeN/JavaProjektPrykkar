@@ -1,6 +1,10 @@
-# JavaProjektPrykkar
+# Prykkar
 autor: Kirke Narusk
-2015-2106
+2015-2016
+
+description in eng: Java program that helps to assort and recycle garbage.
+
+description in en:
 
 **EESMÄRK**
 
